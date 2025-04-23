@@ -21,6 +21,32 @@ export const bookApi = baseApi.injectEndpoints({
       providesTags: ["Book"],
     }),
 
+    getSingleBook: builder.query({
+      query: (id) => ({
+        url: `/book/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["Book"],
+    }),
+
+    updateBook: builder.mutation({
+      query: (agrs) => ({
+        url: `/book/${agrs.id}`,
+        method: "PUT",
+        body: agrs.data,
+      }),
+      invalidatesTags: ["Book"],
+    }),
+
+    addBook: builder.mutation({
+      query: (data) => ({
+        url: `/book`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Book"],
+    }),
+
     getRecomendedBooks: builder.query({
       query: () => ({
         url: "/book/recommended",
@@ -50,6 +76,9 @@ export const bookApi = baseApi.injectEndpoints({
 
 export const {
   useGetAllBookQuery,
+  useGetSingleBookQuery,
+  useUpdateBookMutation,
+  useAddBookMutation,
   useAddRecomendedBookMutation,
   useGetBestSellingBooksQuery,
   useGetRecomendedBooksQuery,

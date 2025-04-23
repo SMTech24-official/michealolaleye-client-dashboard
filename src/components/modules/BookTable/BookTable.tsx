@@ -16,16 +16,18 @@ import { FieldValues } from "react-hook-form";
 import { useGetAllBookQuery } from "@/redux/features/book/book.api";
 import Spinner from "@/components/common/Spinner";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const BookTable = () => {
   const pathName = usePathname();
-  console.log(pathName);
+
   let bookType = "";
   if (pathName === "/ebook") {
     bookType = "EBOOK";
   } else {
     bookType = "AUDIOBOOK";
   }
+  
   const { data, isFetching } = useGetAllBookQuery([
     { name: "type", value: bookType },
   ]);
@@ -47,9 +49,11 @@ const BookTable = () => {
 
         <div className="flex gap-12 ">
           <div className="inline-block">
-            <button className="bg-primary px-6 py-3 rounded-lg flex items-center gap-2 text-white">
-              <Plus /> Add new
-            </button>
+            <Link href={{ pathname: "/add-book", query: { type: bookType } }}>
+              <button className="bg-primary px-6 py-3 rounded-lg flex items-center gap-2 text-white">
+                <Plus /> Add new
+              </button>
+            </Link>
           </div>
           <MyFormWrapper onSubmit={handleSubmit}>
             <div className="relative">
@@ -89,7 +93,14 @@ const BookTable = () => {
               <TableCell>{item.category}</TableCell>
               <TableCell>{item.perseCount}</TableCell>
               <TableCell>
-                <FaRegEdit className="text-xl font-light" />
+                <Link
+                  href={{
+                    pathname: `/edit-book/${item.id}`,
+                    query: { type: bookType },
+                  }}
+                >
+                  <FaRegEdit className="text-xl font-light" />
+                </Link>
               </TableCell>
             </TableRow>
           ))}

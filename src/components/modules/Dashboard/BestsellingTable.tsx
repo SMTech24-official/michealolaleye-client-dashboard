@@ -25,7 +25,7 @@ const BestsellingTable = () => {
   if (isFetching) {
     return <Spinner />;
   }
-
+  
   const item: any = data?.data;
 
   return (

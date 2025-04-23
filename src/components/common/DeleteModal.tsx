@@ -7,22 +7,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-// import { useDeleteRastaurantMutation } from "@/redux/features/restaurant/rastaurant.api";
-import { useRouter } from "next/navigation";
+import { useDeleteBannerMutation } from "@/redux/features/outher/other.api";
 import { useState } from "react";
-import { RiDeleteBinLine } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
 import { toast } from "sonner";
 
 interface DeleteModalProps {
   id: string;
-  type: "restaurent" | "user";
+  type: "restaurent" | "banner";
   btn: "icon" | "btn";
 }
 
 const DeleteModal = ({ id, type, btn }: DeleteModalProps) => {
   const [open, setOpen] = useState(false);
-//   const [deletRestaurant] = useDeleteRastaurantMutation();
-  const router = useRouter();
+  const [deleteBanner] = useDeleteBannerMutation();
 
   const handleDelete = async () => {
     const toastId = toast.loading(`Deleting...`);
@@ -30,14 +28,13 @@ const DeleteModal = ({ id, type, btn }: DeleteModalProps) => {
       let res;
       if (type === "restaurent") {
         // res = await deletRestaurant(id).unwrap();
-      } else if (type === "user") {
-        // res = await deleteCause(id).unwrap();
+      } else if (type === "banner") {
+        res = await deleteBanner(id).unwrap();
       }
 
       if (res.data) {
         toast.success("Deleted Successfully", { id: toastId });
         setOpen(false);
-        router.push("/");
       } else {
         toast.error(res?.error?.data?.message || "Failed to Delete", {
           id: toastId,
@@ -53,8 +50,10 @@ const DeleteModal = ({ id, type, btn }: DeleteModalProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {btn === "icon" ? (
-        <DialogTrigger className="w-8 h-8 bg-gray-200 rounded-full flex justify-center items-center">
-          <RiDeleteBinLine className="text-xl text-red-500" />
+        <DialogTrigger className=" flex justify-center items-center">
+          <button>
+            <RxCross2 className="text-red-600 font-semibold text-xl" />
+          </button>
         </DialogTrigger>
       ) : (
         <DialogTrigger className="gradient-border md:w-2/5">
@@ -72,13 +71,13 @@ const DeleteModal = ({ id, type, btn }: DeleteModalProps) => {
               <div className="flex md:gap-5 gap-3">
                 <button
                   onClick={() => setOpen(false)}
-                  className="bg-red-500 py-2 px-6 rounded-lg"
+                  className="bg-red-400 py-2 px-6 rounded-lg font-normal text-white"
                 >
                   Cancle
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="bg-green-500 py-2 px-6 rounded-lg"
+                  className="bg-primary py-2 px-6 rounded-lg font-normal text-white"
                 >
                   Confirm
                 </button>

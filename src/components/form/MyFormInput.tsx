@@ -103,7 +103,7 @@ const MyFormInput = ({
                 <label
                   htmlFor={name}
                   className={cn(
-                    "border-2 border-dashed border-green-500 rounded-lg p-6 flex flex-col items-center justify-center bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors relative overflow-hidden",
+                    "border border-[#7E1F7F40] rounded-lg p-6 flex flex-col items-center justify-center bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors relative overflow-hidden",
                     "min-h-[100px]",
                     error ? "border-red-500" : "",
                     inputClassName
@@ -120,7 +120,7 @@ const MyFormInput = ({
                     </div>
                   ) : (
                     <>
-                      <div className="text-green-500 mb-2">
+                      <div className="text-primary mb-2">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
