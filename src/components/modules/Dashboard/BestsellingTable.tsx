@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import Spinner from "@/components/common/Spinner";
 import MyFormInput from "@/components/form/MyFormInput";
 import MyFormWrapper from "@/components/form/MyFormWrapper";
 import {
@@ -9,14 +11,23 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useGetBestSellingBooksQuery } from "@/redux/features/book/book.api";
 import { Search } from "lucide-react";
 import { FieldValues } from "react-hook-form";
 
 const BestsellingTable = () => {
-  const item = [1, 2, 3, 4];
+  const { data, isFetching } = useGetBestSellingBooksQuery(undefined);
+
   const handleSubmit = (data: FieldValues) => {
     console.log(data);
   };
+
+  if (isFetching) {
+    return <Spinner />;
+  }
+
+  const item: any = data?.data;
+
   return (
     <div className="bg-[#FFF8FF80] p-4 rounded-lg">
       <div className="flex justify-between gap-1">
@@ -51,12 +62,12 @@ const BestsellingTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {item.map((item, idx) => (
+          {item?.map((item: any, idx: number) => (
             <TableRow key={idx} className="text-base ">
-              <TableCell className="py-4">Soler bones & stardom</TableCell>
-              <TableCell>Mike cormac & startac</TableCell>
-              <TableCell>Story</TableCell>
-              <TableCell className="text-right">$12</TableCell>
+              <TableCell className="py-4">{item.bookName}</TableCell>
+              <TableCell>{item.writerName}</TableCell>
+              <TableCell>{item.category}</TableCell>
+              <TableCell className="text-end">{item.perseCount}</TableCell>
             </TableRow>
           ))}
         </TableBody>

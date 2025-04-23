@@ -1,11 +1,12 @@
 import React from "react";
-import { IoRestaurant } from "react-icons/io5";
+import { ImSpinner9 } from "react-icons/im";
+
 
 const Spinner = () => {
   return (
     <div className="md:py-10 py-5 flex justify-center items-center">
       <div className="animate-spin">
-        <IoRestaurant className="text-primary text-4xl" />
+        <ImSpinner9 className="text-primary text-3xl" />
       </div>
     </div>
   );

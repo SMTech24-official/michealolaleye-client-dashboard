@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import {
   Table,
@@ -9,10 +10,18 @@ import {
 } from "@/components/ui/table";
 import { Trash2 } from "lucide-react";
 import SeletBookTypeModal from "./SeletBookTypeModal";
+import { useGetRecomendedBooksQuery } from "@/redux/features/book/book.api";
+import Spinner from "@/components/common/Spinner";
 
 const RecommendedTable = () => {
-  const item = [1, 2, 3, 4];
+  const { data, isFetching } = useGetRecomendedBooksQuery(undefined);
 
+  if (isFetching) {
+    return <Spinner />;
+  }
+
+  const item: any = data?.data;
+  console.log(item);
   return (
     <div className="bg-[#FFF8FF80] p-4 rounded-lg">
       <div className="flex justify-between gap-1 mb-8">
@@ -32,18 +41,18 @@ const RecommendedTable = () => {
             <TableHead className="text-xl font-medium text-black">
               Sale
             </TableHead>
-            <TableHead className="text-xl font-medium text-black">
+            <TableHead className="text-xl font-medium text-black text-end">
               Delete
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {item.map((item, idx) => (
+          {item?.map((item: any, idx: number) => (
             <TableRow key={idx} className="text-base ">
-              <TableCell className="py-4">Soler bones & stardom</TableCell>
-              <TableCell>Mike cormac & startac</TableCell>
-              <TableCell>$12</TableCell>
-              <TableCell className="flex justify-center">
+              <TableCell className="py-4">{item.bookName}</TableCell>
+              <TableCell>{item.writerName}</TableCell>
+              <TableCell>{item.perseCount}</TableCell>
+              <TableCell className="flex justify-end">
                 <button>
                   <Trash2 className="text-red-500 hover:text-primary" />
                 </button>

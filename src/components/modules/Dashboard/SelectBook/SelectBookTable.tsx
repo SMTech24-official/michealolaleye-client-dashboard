@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import MyBtn from "@/components/common/MyBtn";
+import Spinner from "@/components/common/Spinner";
 import MyFormInput from "@/components/form/MyFormInput";
 import MyFormWrapper from "@/components/form/MyFormWrapper";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,17 +12,40 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  useAddRecomendedBookMutation,
+  useGetAllBookQuery,
+} from "@/redux/features/book/book.api";
 import { Search } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 const SelectBookTable = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [addBook] = useAddRecomendedBookMutation();
+  const query = useSearchParams().get("type");
+  const { data, isFetching } = useGetAllBookQuery([
+    { name: "type", value: query },
+  ]);
 
-  const item = [1, 2, 3, 4];
+  // handle Add Book
+  const handleAddBook = async () => {
+    const toastId = toast.loading("Book adding...");
 
-  const handleSubmit = (data: FieldValues) => {
-    console.log(data);
+    const bookIds = { bookId: selectedIds };
+
+    try {
+      const res = await addBook(bookIds).unwrap();
+      if (res) {
+        toast.success("Book added successfully", { id: toastId });
+        setSelectedIds([])
+      }
+    } catch (err: any) {
+      toast.error(err.data?.message || "Faild to add Book", {
+        id: toastId,
+      });
+    }
   };
 
   // Handle individual truck selection
@@ -33,9 +57,14 @@ const SelectBookTable = () => {
     }
   };
 
-  //   useEffect(() => {
-  //     onSelectionChange?.(selectedIds);
-  //   }, [selectedIds, onSelectionChange]);
+  // handle search
+  const handleSubmit = () => {};
+
+  if (isFetching) {
+    return <Spinner />;
+  }
+
+  const item: any = data?.data?.data;
 
   return (
     <div className="bg-[#FFF8FF80] p-4 rounded-lg">
@@ -69,21 +98,17 @@ const SelectBookTable = () => {
               Sale
             </TableHead>
             <TableHead className=" text-xl font-medium text-black">
-              Length
-            </TableHead>
-            <TableHead className=" text-xl font-medium text-black">
               Edit
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {item.map((item, idx) => (
+          {item?.map((item: any, idx: number) => (
             <TableRow key={idx} className="text-base ">
-              <TableCell className="py-4">Soler bones & stardom</TableCell>
-              <TableCell>Mike cormac & startac</TableCell>
-              <TableCell>Story</TableCell>
-              <TableCell>12</TableCell>
-              <TableCell>2hrs 20min</TableCell>
+              <TableCell className="py-4">{item.bookName}</TableCell>
+              <TableCell>{item.writerName}</TableCell>
+              <TableCell>{item.category}</TableCell>
+              <TableCell>{item.perseCount}</TableCell>
               <TableCell>
                 <Checkbox
                   id={`select-${item.id}`}
@@ -99,8 +124,15 @@ const SelectBookTable = () => {
       </Table>
 
       <div className="max-w-96 mx-auto my-7 space-y-4">
-        <MyBtn name="Save" width="w-full"/>
-        <button className="border border-primary w-full rounded-lg py-2 text-primary">Cancel</button>
+        <button
+          onClick={handleAddBook}
+          className="bg-primary border border-primary w-full rounded-lg py-2 text-white"
+        >
+          Save
+        </button>
+        <button className="border border-primary w-full rounded-lg py-2 text-primary">
+          Cancel
+        </button>
       </div>
     </div>
   );

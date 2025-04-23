@@ -1,12 +1,11 @@
-import EbookTable from "@/components/modules/Audiobook/AudiobookTable";
-
+import BookTable from "@/components/modules/BookTable/BookTable";
 
 const page = () => {
-    return (
-        <div>
-            <EbookTable />
-        </div>
-    );
+  return (
+    <div>
+      <BookTable />
+    </div>
+  );
 };
 
 export default page;

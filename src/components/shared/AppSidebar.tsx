@@ -2,12 +2,16 @@
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { removeCookie } from "@/utils/cookies";
 import {
   Image,
   House,
@@ -16,7 +20,8 @@ import {
   ChartBarStacked,
   UserRound,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 const items = [
   {
@@ -53,6 +58,15 @@ const items = [
 
 const AppSidebar = () => {
   const pathName = usePathname();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const handleLolgout = () => {
+    dispatch(logout());
+    removeCookie("token");
+    router.push("/login");
+  };
+
   return (
     <Sidebar className="top-36 left-7 !border-none">
       <SidebarContent className="!bg-secondary rounded-xl">
@@ -66,20 +80,28 @@ const AppSidebar = () => {
                   asChild
                   className={`text-base font-medium px-5 py-7 hover:bg-primary hover:text-white ${
                     pathName === `${item.url}`
-                      ? "bg-primary text-white rounded-xl"
+                      ? "bg-primary text-white rounded-lg"
                       : "text-black"
                   }`}
                 >
-                  <a href={item.url}>
+                  <Link href={item.url}>
                     <div>
                       <item.icon />
                     </div>
                     <span>{item.title}</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
+          <SidebarFooter className="px-5 mt-20">
+            <button
+              onClick={handleLolgout}
+              className="py-3 border border-red-400 rounded-lg"
+            >
+              Log out
+            </button>
+          </SidebarFooter>
         </SidebarGroupContent>
         <SidebarGroup />
       </SidebarContent>

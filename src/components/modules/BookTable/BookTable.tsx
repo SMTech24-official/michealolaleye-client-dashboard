@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import MyFormInput from "@/components/form/MyFormInput";
 import MyFormWrapper from "@/components/form/MyFormWrapper";
@@ -12,13 +13,32 @@ import {
 } from "@/components/ui/table";
 import { Plus, Search } from "lucide-react";
 import { FieldValues } from "react-hook-form";
+import { useGetAllBookQuery } from "@/redux/features/book/book.api";
+import Spinner from "@/components/common/Spinner";
+import { usePathname } from "next/navigation";
 
-const AudiobookTable = () => {
-  const item = [1, 2, 3, 4];
+const BookTable = () => {
+  const pathName = usePathname();
+  console.log(pathName);
+  let bookType = "";
+  if (pathName === "/ebook") {
+    bookType = "EBOOK";
+  } else {
+    bookType = "AUDIOBOOK";
+  }
+  const { data, isFetching } = useGetAllBookQuery([
+    { name: "type", value: bookType },
+  ]);
 
   const handleSubmit = (data: FieldValues) => {
     console.log(data);
   };
+
+  if (isFetching) {
+    return <Spinner />;
+  }
+
+  const item: any = data?.data?.data;
 
   return (
     <div className="bg-[#FFF8FF80] p-4 rounded-lg">
@@ -27,9 +47,9 @@ const AudiobookTable = () => {
 
         <div className="flex gap-12 ">
           <div className="inline-block">
-          <button className="bg-primary px-6 py-3 rounded-lg flex items-center gap-2 text-white">
-            <Plus /> Add new
-          </button>
+            <button className="bg-primary px-6 py-3 rounded-lg flex items-center gap-2 text-white">
+              <Plus /> Add new
+            </button>
           </div>
           <MyFormWrapper onSubmit={handleSubmit}>
             <div className="relative">
@@ -62,12 +82,12 @@ const AudiobookTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {item.map((item, idx) => (
+          {item?.map((item: any, idx: number) => (
             <TableRow key={idx} className="text-base ">
-              <TableCell className="py-4">Soler bones & stardom</TableCell>
-              <TableCell>Mike cormac & startac</TableCell>
-              <TableCell>Story</TableCell>
-              <TableCell>12</TableCell>
+              <TableCell className="py-4">{item.bookName}</TableCell>
+              <TableCell>{item.writerName}</TableCell>
+              <TableCell>{item.category}</TableCell>
+              <TableCell>{item.perseCount}</TableCell>
               <TableCell>
                 <FaRegEdit className="text-xl font-light" />
               </TableCell>
@@ -79,4 +99,4 @@ const AudiobookTable = () => {
   );
 };
 
-export default AudiobookTable;
+export default BookTable;
