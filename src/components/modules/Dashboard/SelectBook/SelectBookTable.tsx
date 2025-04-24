@@ -20,11 +20,13 @@ import { Search } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import RedeemModal from "../../Rewards/Redeem/RedeemModal";
 
 const SelectBookTable = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [addBook] = useAddRecomendedBookMutation();
   const query = useSearchParams().get("type");
+  const comeFrom = useSearchParams().get("from");
   const { data, isFetching } = useGetAllBookQuery([
     { name: "type", value: query },
   ]);
@@ -39,7 +41,7 @@ const SelectBookTable = () => {
       const res = await addBook(bookIds).unwrap();
       if (res) {
         toast.success("Book added successfully", { id: toastId });
-        setSelectedIds([])
+        setSelectedIds([]);
       }
     } catch (err: any) {
       toast.error(err.data?.message || "Faild to add Book", {
@@ -124,12 +126,17 @@ const SelectBookTable = () => {
       </Table>
 
       <div className="max-w-96 mx-auto my-7 space-y-4">
-        <button
-          onClick={handleAddBook}
-          className="bg-primary border border-primary w-full rounded-lg py-2 text-white"
-        >
-          Save
-        </button>
+        {comeFrom === "rewards" ? (
+          <RedeemModal bookIds={selectedIds} />
+        ) : (
+          <button
+            onClick={handleAddBook}
+            className="bg-primary border border-primary w-full rounded-lg py-2 text-white"
+          >
+            Save
+          </button>
+        )}
+
         <button className="border border-primary w-full rounded-lg py-2 text-primary">
           Cancel
         </button>

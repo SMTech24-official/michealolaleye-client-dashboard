@@ -10,6 +10,8 @@ import {
 import {
   useDeleteBannerMutation,
   useDeleteCategoryMutation,
+  useDeletePoinsMutation,
+  useDeleteRedeemMutation,
 } from "@/redux/features/outher/other.api";
 import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
@@ -17,7 +19,7 @@ import { toast } from "sonner";
 
 interface DeleteModalProps {
   id: string;
-  type: "category" | "banner";
+  type: "category" | "banner" | "point" | "redeem";
   btn: "icon" | "btn";
 }
 
@@ -25,6 +27,8 @@ const DeleteModal = ({ id, type, btn }: DeleteModalProps) => {
   const [open, setOpen] = useState(false);
   const [deleteBanner] = useDeleteBannerMutation();
   const [deletecategory] = useDeleteCategoryMutation();
+  const [deletePoint] = useDeletePoinsMutation();
+  const [deleteRedeem] = useDeleteRedeemMutation();
 
   const handleDelete = async () => {
     const toastId = toast.loading(`Deleting...`);
@@ -34,6 +38,10 @@ const DeleteModal = ({ id, type, btn }: DeleteModalProps) => {
         res = await deletecategory(id).unwrap();
       } else if (type === "banner") {
         res = await deleteBanner(id).unwrap();
+      } else if (type === "point") {
+        res = await deletePoint(id).unwrap();
+      } else if (type === "redeem") {
+        res = await deleteRedeem(id).unwrap();
       }
 
       if (res.data) {

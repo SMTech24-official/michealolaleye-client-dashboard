@@ -8,8 +8,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const SeletBookTypeModal = () => {
+  const pathName = usePathname();
+
   return (
     <div>
       <Dialog>
@@ -22,11 +25,30 @@ const SeletBookTypeModal = () => {
               Add Recommended book
             </DialogTitle>
             <DialogDescription className="flex flex-col gap-5">
-              <Link href={{ pathname: "/select-book", query:{ type: "EBOOK"} }}>
+              <Link
+                href={
+                  pathName === "/rewards"
+                    ? {
+                        pathname: "/select-book",
+                        query: { type: "EBOOK", from: "rewards" },
+                      }
+                    : { pathname: "/select-book", query: { type: "EBOOK" } }
+                }
+              >
                 <MyBtn name="Ebook" width="w-full" />
               </Link>
               <Link
-                href={{ pathname: "/select-book", query: { type: "AUDIOBOOK" } }}
+                href={
+                  pathName === "/rewards"
+                    ? {
+                        pathname: "/select-book",
+                        query: { type: "AUDIOBOOK", from: "rewards" },
+                      }
+                    : {
+                        pathname: "/select-book",
+                        query: { type: "AUDIOBOOK" },
+                      }
+                }
               >
                 <MyBtn name="Audio Bbook" width="w-full" />
               </Link>

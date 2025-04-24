@@ -51,6 +51,56 @@ export const bookApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Category"],
     }),
+
+    getPoins: builder.query({
+      query: () => ({
+        url: "/point",
+        method: "GET",
+      }),
+      providesTags: ["Rewards"],
+    }),
+
+    addPoins: builder.mutation({
+      query: (data) => ({
+        url: "/point",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Rewards"],
+    }),
+
+    deletePoins: builder.mutation({
+      query: (id) => ({
+        url: `/point/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Rewards"],
+    }),
+
+    getRedeem: builder.query({
+      query: () => ({
+        url: "/redeem",
+        method: "GET",
+      }),
+      providesTags: ["Redeem"],
+    }),
+
+    addRedeem: builder.mutation({
+      query: (data) => ({
+        url: "/redeem",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Redeem"],
+    }),
+
+    deleteRedeem: builder.mutation({
+      query: (id) => ({
+        url: `/redeem/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Redeem"],
+    }),
   }),
 });
 
@@ -61,4 +111,10 @@ export const {
   useGetAllCategoryQuery,
   useAddCategoryMutation,
   useDeleteCategoryMutation,
+  useGetPoinsQuery,
+  useAddPoinsMutation,
+  useDeletePoinsMutation,
+  useAddRedeemMutation,
+  useGetRedeemQuery,
+  useDeleteRedeemMutation,
 } = bookApi;

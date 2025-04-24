@@ -19,6 +19,7 @@ import {
   BookHeadphones,
   ChartBarStacked,
   UserRound,
+  Medal,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -48,6 +49,11 @@ const items = [
     title: "Category",
     url: "/category",
     icon: ChartBarStacked,
+  },
+  {
+    title: "Rewards",
+    url: "/rewards",
+    icon: Medal,
   },
   {
     title: "Profile",
@@ -97,7 +103,7 @@ const AppSidebar = () => {
           <SidebarFooter className="px-5 mt-20">
             <button
               onClick={handleLolgout}
-              className="py-3 border border-red-400 rounded-lg"
+              className="py-3 border border-red-400 rounded-lg font-medium text-base"
             >
               Log out
             </button>
