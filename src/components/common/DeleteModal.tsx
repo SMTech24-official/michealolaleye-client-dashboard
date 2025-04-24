@@ -7,27 +7,31 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useDeleteBannerMutation } from "@/redux/features/outher/other.api";
+import {
+  useDeleteBannerMutation,
+  useDeleteCategoryMutation,
+} from "@/redux/features/outher/other.api";
 import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { toast } from "sonner";
 
 interface DeleteModalProps {
   id: string;
-  type: "restaurent" | "banner";
+  type: "category" | "banner";
   btn: "icon" | "btn";
 }
 
 const DeleteModal = ({ id, type, btn }: DeleteModalProps) => {
   const [open, setOpen] = useState(false);
   const [deleteBanner] = useDeleteBannerMutation();
+  const [deletecategory] = useDeleteCategoryMutation();
 
   const handleDelete = async () => {
     const toastId = toast.loading(`Deleting...`);
     try {
       let res;
-      if (type === "restaurent") {
-        // res = await deletRestaurant(id).unwrap();
+      if (type === "category") {
+        res = await deletecategory(id).unwrap();
       } else if (type === "banner") {
         res = await deleteBanner(id).unwrap();
       }
@@ -51,9 +55,7 @@ const DeleteModal = ({ id, type, btn }: DeleteModalProps) => {
     <Dialog open={open} onOpenChange={setOpen}>
       {btn === "icon" ? (
         <DialogTrigger className=" flex justify-center items-center">
-          <button>
-            <RxCross2 className="text-red-600 font-semibold text-xl" />
-          </button>
+          <RxCross2 className="text-red-600 font-semibold text-xl" />
         </DialogTrigger>
       ) : (
         <DialogTrigger className="gradient-border md:w-2/5">

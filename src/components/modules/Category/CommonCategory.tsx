@@ -3,12 +3,12 @@
 import DeleteModal from "@/components/common/DeleteModal";
 import MyBtn from "@/components/common/MyBtn";
 import Spinner from "@/components/common/Spinner";
-import { useGetAllBannerQuery } from "@/redux/features/outher/other.api";
+import { useGetAllCategoryQuery } from "@/redux/features/outher/other.api";
 import Image from "next/image";
 import Link from "next/link";
 
-const CommonBanner = () => {
-  const { data, isFetching } = useGetAllBannerQuery(undefined);
+const CommonCategory = () => {
+  const { data, isFetching } = useGetAllCategoryQuery(undefined);
 
   if (isFetching) {
     return <Spinner />;
@@ -17,15 +17,11 @@ const CommonBanner = () => {
   const bannerData = data?.data;
   return (
     <div>
-      <h2 className="text-2xl font-semibold text-center mb-14">Banner</h2>
-      <div className="grid grid-cols-3 gap-6">
+      <h2 className="text-2xl font-semibold text-center mb-14">Category</h2>
+      <div className="grid grid-cols-7 gap-6">
         {bannerData.map((item: any) => (
-          <div key={item.id} className="rounded-xl shadow-lg p-5 relative">
-            <div className="flex items-center">
-              <div className="w-2/3">
-                <h3 className="text-xl font-semibold">{item?.title}</h3>
-                <p className="text-gray-500">{item?.creator}</p>
-              </div>
+          <div key={item.id} className="rounded-xl shadow-lg p-2 relative">
+            <div className="flex flex-col items-center gap-3">
               <Image
                 src={item.image}
                 alt="image"
@@ -33,17 +29,18 @@ const CommonBanner = () => {
                 width={250}
                 className="h-36 w-32"
               />
+              <h3 className="text-xl ">{item?.name}</h3>
             </div>
 
             <div className="absolute top-0 right-0">
-              <DeleteModal btn="icon" type="banner" id={item.id} />
+              <DeleteModal btn="icon" type="category" id={item.id} />
             </div>
           </div>
         ))}
       </div>
 
       <div className="w-2/3 mx-auto mt-16">
-        <Link href={"/add-banner"}>
+        <Link href={"/add-category"}>
           <MyBtn name="Add new" width="w-full" />
         </Link>
       </div>
@@ -51,4 +48,4 @@ const CommonBanner = () => {
   );
 };
 
-export default CommonBanner;
+export default CommonCategory;
