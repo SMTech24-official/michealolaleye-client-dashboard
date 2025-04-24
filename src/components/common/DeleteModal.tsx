@@ -7,19 +7,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useDeleteRecomendedBookMutation } from "@/redux/features/book/book.api";
 import {
   useDeleteBannerMutation,
   useDeleteCategoryMutation,
   useDeletePoinsMutation,
   useDeleteRedeemMutation,
 } from "@/redux/features/outher/other.api";
+import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { toast } from "sonner";
 
 interface DeleteModalProps {
   id: string;
-  type: "category" | "banner" | "point" | "redeem";
+  type: "category" | "banner" | "point" | "redeem" | "recomendedBook";
   btn: "icon" | "btn";
 }
 
@@ -29,6 +31,7 @@ const DeleteModal = ({ id, type, btn }: DeleteModalProps) => {
   const [deletecategory] = useDeleteCategoryMutation();
   const [deletePoint] = useDeletePoinsMutation();
   const [deleteRedeem] = useDeleteRedeemMutation();
+  const [deleteRecomendedBook] = useDeleteRecomendedBookMutation();
 
   const handleDelete = async () => {
     const toastId = toast.loading(`Deleting...`);
@@ -42,6 +45,8 @@ const DeleteModal = ({ id, type, btn }: DeleteModalProps) => {
         res = await deletePoint(id).unwrap();
       } else if (type === "redeem") {
         res = await deleteRedeem(id).unwrap();
+      } else if (type === "recomendedBook") {
+        res = await deleteRecomendedBook(id).unwrap();
       }
 
       if (res.data) {
@@ -67,7 +72,7 @@ const DeleteModal = ({ id, type, btn }: DeleteModalProps) => {
         </DialogTrigger>
       ) : (
         <DialogTrigger className="gradient-border md:w-2/5">
-          <div className="content">Delete</div>
+          <Trash2 className="text-red-500 hover:text-primary" />
         </DialogTrigger>
       )}
 

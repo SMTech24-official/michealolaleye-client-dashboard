@@ -17,10 +17,11 @@ import {
   useGetAllBookQuery,
 } from "@/redux/features/book/book.api";
 import { Search } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import RedeemModal from "../../Rewards/Redeem/RedeemModal";
+import Link from "next/link";
 
 const SelectBookTable = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -30,6 +31,7 @@ const SelectBookTable = () => {
   const { data, isFetching } = useGetAllBookQuery([
     { name: "type", value: query },
   ]);
+  const router = useRouter();
 
   // handle Add Book
   const handleAddBook = async () => {
@@ -42,6 +44,10 @@ const SelectBookTable = () => {
       if (res) {
         toast.success("Book added successfully", { id: toastId });
         setSelectedIds([]);
+        if (comeFrom) {
+          router.push("/rewards");
+        }
+        router.push("/");
       }
     } catch (err: any) {
       toast.error(err.data?.message || "Faild to add Book", {
@@ -125,7 +131,7 @@ const SelectBookTable = () => {
         </TableBody>
       </Table>
 
-      <div className="max-w-96 mx-auto my-7 space-y-4">
+      <div className="max-w-96 mx-auto my-7 ">
         {comeFrom === "rewards" ? (
           <RedeemModal bookIds={selectedIds} />
         ) : (
@@ -137,9 +143,11 @@ const SelectBookTable = () => {
           </button>
         )}
 
-        <button className="border border-primary w-full rounded-lg py-2 text-primary">
-          Cancel
-        </button>
+        <Link href={comeFrom === "rewards" ? "/rewards" : "/"}>
+          <button className="border border-primary w-full rounded-lg py-2 text-primary mt-4">
+            Cancel
+          </button>
+        </Link>
       </div>
     </div>
   );

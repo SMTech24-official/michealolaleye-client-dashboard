@@ -3,6 +3,13 @@ import { TQueryParams } from "@/types/global.type";
 
 export const bookApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    dashboard: builder.query({
+      query: () => ({
+        url: `/book/getBooksOverview`,
+        method: "GET",
+      }),
+    }),
+
     getAllBook: builder.query({
       query: (args) => {
         const params = new URLSearchParams();
@@ -64,22 +71,42 @@ export const bookApi = baseApi.injectEndpoints({
       invalidatesTags: ["Book"],
     }),
 
-    getBestSellingBooks: builder.query({
-      query: () => ({
-        url: "/book/best-selling",
-        method: "GET",
+    deleteRecomendedBook: builder.mutation({
+      query: (id) => ({
+        url: `/book/recommended/${id}`,
+        method: "DELETE",
       }),
+      invalidatesTags: ["Book"],
+    }),
+
+    getBestSellingBooks: builder.query({
+      query: (args) => {
+        const params = new URLSearchParams();
+
+        if (args) {
+          args.forEach((item: TQueryParams) =>
+            params.append(item.name, item.value as string)
+          );
+        }
+        return {
+          url: "/book/best-selling",
+          method: "GET",
+          params: params,
+        };
+      },
       providesTags: ["Book"],
     }),
   }),
 });
 
 export const {
+  useDashboardQuery,
   useGetAllBookQuery,
   useGetSingleBookQuery,
   useUpdateBookMutation,
   useAddBookMutation,
   useAddRecomendedBookMutation,
+  useDeleteRecomendedBookMutation,
   useGetBestSellingBooksQuery,
   useGetRecomendedBooksQuery,
 } = bookApi;

@@ -13,27 +13,40 @@ import {
 } from "@/components/ui/table";
 import { useGetBestSellingBooksQuery } from "@/redux/features/book/book.api";
 import { Search } from "lucide-react";
+import { useState } from "react";
 import { FieldValues } from "react-hook-form";
 
 const BestsellingTable = () => {
-  const { data, isFetching } = useGetBestSellingBooksQuery(undefined);
+  const [searchValue, setSearchValue] = useState<string | undefined>("");
+  const { data, isFetching } = useGetBestSellingBooksQuery([
+    { name: "searchTerm", value: searchValue },
+  ]);
 
   const handleSubmit = (data: FieldValues) => {
-    console.log(data);
+    setSearchValue(data.search);
   };
 
   if (isFetching) {
     return <Spinner />;
   }
-  
-  const item: any = data?.data;
+
+  const item: any = data?.data?.data;
 
   return (
     <div className="bg-[#FFF8FF80] p-4 rounded-lg">
       <div className="flex justify-between gap-1">
         <h2 className="text-2xl font-medium">Bestselling Books</h2>
 
-        <div>
+        <div className="flex gap-3">
+          <div className="inline-block">
+            <button
+              onClick={() => setSearchValue("")}
+              className="bg-primary px-4 py-3 rounded-lg flex items-center gap-2 text-white"
+            >
+              All
+            </button>
+          </div>
+
           <MyFormWrapper onSubmit={handleSubmit}>
             <div className="relative">
               <MyFormInput name="search" inputClassName="px-12" />

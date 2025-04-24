@@ -17,8 +17,10 @@ import { useGetAllBookQuery } from "@/redux/features/book/book.api";
 import Spinner from "@/components/common/Spinner";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useState } from "react";
 
 const BookTable = () => {
+  const [searchValue, setSearchValue] = useState<string | undefined>("");
   const pathName = usePathname();
 
   let bookType = "";
@@ -27,13 +29,14 @@ const BookTable = () => {
   } else {
     bookType = "AUDIOBOOK";
   }
-  
+
   const { data, isFetching } = useGetAllBookQuery([
     { name: "type", value: bookType },
+    { name: "searchTerm", value: searchValue },
   ]);
 
   const handleSubmit = (data: FieldValues) => {
-    console.log(data);
+    setSearchValue(data.search);
   };
 
   if (isFetching) {
@@ -55,6 +58,14 @@ const BookTable = () => {
               </button>
             </Link>
           </div>
+          <div className="inline-block">
+            <button
+              onClick={() => setSearchValue("")}
+              className="bg-primary px-6 py-3 rounded-lg flex items-center gap-2 text-white"
+            >
+              All
+            </button>
+          </div>
           <MyFormWrapper onSubmit={handleSubmit}>
             <div className="relative">
               <MyFormInput name="search" inputClassName="px-12" />
@@ -65,47 +76,53 @@ const BookTable = () => {
           </MyFormWrapper>
         </div>
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="text-xl font-medium text-black">
-              Tittle
-            </TableHead>
-            <TableHead className="text-xl font-medium text-black">
-              Writter
-            </TableHead>
-            <TableHead className="text-xl font-medium text-black">
-              Category
-            </TableHead>
-            <TableHead className=" text-xl font-medium text-black">
-              Sale
-            </TableHead>
-            <TableHead className=" text-xl font-medium text-black">
-              Edit
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {item?.map((item: any, idx: number) => (
-            <TableRow key={idx} className="text-base ">
-              <TableCell className="py-4">{item.bookName}</TableCell>
-              <TableCell>{item.writerName}</TableCell>
-              <TableCell>{item.category}</TableCell>
-              <TableCell>{item.perseCount}</TableCell>
-              <TableCell>
-                <Link
-                  href={{
-                    pathname: `/edit-book/${item.id}`,
-                    query: { type: bookType },
-                  }}
-                >
-                  <FaRegEdit className="text-xl font-light" />
-                </Link>
-              </TableCell>
+      {item.length <= 0 ? (
+        <div className="text-lg font-medium text-center text-primary">
+          No data found
+        </div>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-xl font-medium text-black">
+                Tittle
+              </TableHead>
+              <TableHead className="text-xl font-medium text-black">
+                Writter
+              </TableHead>
+              <TableHead className="text-xl font-medium text-black">
+                Category
+              </TableHead>
+              <TableHead className=" text-xl font-medium text-black">
+                Sale
+              </TableHead>
+              <TableHead className=" text-xl font-medium text-black">
+                Edit
+              </TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {item?.map((item: any, idx: number) => (
+              <TableRow key={idx} className="text-base ">
+                <TableCell className="py-4">{item.bookName}</TableCell>
+                <TableCell>{item.writerName}</TableCell>
+                <TableCell>{item.category}</TableCell>
+                <TableCell>{item.perseCount}</TableCell>
+                <TableCell>
+                  <Link
+                    href={{
+                      pathname: `/edit-book/${item.id}`,
+                      query: { type: bookType },
+                    }}
+                  >
+                    <FaRegEdit className="text-xl font-light" />
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </div>
   );
 };

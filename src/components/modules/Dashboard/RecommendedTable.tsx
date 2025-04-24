@@ -8,10 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Trash2 } from "lucide-react";
 import SeletBookTypeModal from "./SeletBookTypeModal";
 import { useGetRecomendedBooksQuery } from "@/redux/features/book/book.api";
 import Spinner from "@/components/common/Spinner";
+import DeleteModal from "@/components/common/DeleteModal";
 
 const RecommendedTable = () => {
   const { data, isFetching } = useGetRecomendedBooksQuery(undefined);
@@ -53,9 +53,7 @@ const RecommendedTable = () => {
               <TableCell>{item.writerName}</TableCell>
               <TableCell>{item.perseCount}</TableCell>
               <TableCell className="flex justify-end">
-                <button>
-                  <Trash2 className="text-red-500 hover:text-primary" />
-                </button>
+                <DeleteModal btn="btn" id={item.id} type="recomendedBook" />
               </TableCell>
             </TableRow>
           ))}
