@@ -26,9 +26,10 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+
     sendOtp: builder.mutation({
       query: (email) => ({
-        url: "/auth/forgot-password",
+        url: "/auth/resend-otp",
         method: "POST",
         body: email,
       }),

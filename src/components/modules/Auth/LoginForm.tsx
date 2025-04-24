@@ -7,6 +7,7 @@ import { setUser, TUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { setCookie } from "@/utils/cookies";
 import { varifyToken } from "@/utils/verifyToken";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { FieldValues } from "react-hook-form";
@@ -57,6 +58,11 @@ const LoginForm = () => {
           placeholder="password"
           label="Password"
         />
+        <div className="flex justify-end">
+          <Link href={'/forget-password'}>
+            <button type="button">Forget password?</button>
+          </Link>
+        </div>
 
         <button className="bg-primary rounded-xl py-4 md:px-36 px-20 text-xl text-white w-full">
           Login
