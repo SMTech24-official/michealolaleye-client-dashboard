@@ -47,19 +47,18 @@ const LoginForm = () => {
         <MyFormInput
           name="phoneNumber"
           inputClassName="md:py-4 py-2 md:px-5 px-5 "
-          placeholder="phone"
+          placeholder="Your registered Phone Number"
           label="Phone Number"
         />
-
         <MyFormInput
           type="password"
           name="password"
           inputClassName="md:py-4 py-2 md:px-5 px-5 "
-          placeholder="password"
+          placeholder="Enter your correct password"
           label="Password"
         />
         <div className="flex justify-end">
-          <Link href={'/forget-password'}>
+          <Link href={"/forget-password"}>
             <button type="button">Forget password?</button>
           </Link>
         </div>

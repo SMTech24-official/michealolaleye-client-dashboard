@@ -12,6 +12,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const ForgetPassword = () => {
   const [number, setNumber] = useState<string>("");
@@ -22,17 +24,17 @@ const ForgetPassword = () => {
   const [resetPass] = useResetPasswordMutation();
 
   // send otp
-  const otpSend = async (data: FieldValues) => {
-    setNumber(data.phoneNumber);
-    const toastId = toast.loading("Uploading Category...");
+  const otpSend = async () => {
+    const toastId = toast.loading("OTP sending...");
 
     try {
-      const res = await sendOtp(data).unwrap();
+      const res = await sendOtp({ phoneNumber: number }).unwrap();
       if (res) {
-        toast.success("Category Uploaded successfully", { id: toastId });
+        toast.success("OTP send successfully", { id: toastId });
+        setStage("verifyOtp");
       }
     } catch (err: any) {
-      toast.error(err.data?.message || "Faild to Uploading Category", {
+      toast.error(err.data?.message || "Faild to send OTP", {
         id: toastId,
       });
     }
@@ -40,74 +42,86 @@ const ForgetPassword = () => {
 
   // verify otp
   const verifyOtp = async (data: FieldValues) => {
-    const toastId = toast.loading("Uploading Category...");
+    const toastId = toast.loading("OTP verify...");
 
     const verifyData = { ...data, phoneNumber: number };
 
     try {
       const res = await varifyOtp(verifyData).unwrap();
       if (res) {
-        toast.success("Category Uploaded successfully", { id: toastId });
+        toast.success("OTP verified successfully", { id: toastId });
+        setStage("resetPassword");
       }
     } catch (err: any) {
-      toast.error(err.data?.message || "Faild to Uploading Category", {
+      toast.error(err.data?.message || "Faild to varify OTP", {
         id: toastId,
       });
     }
   };
 
   const resetPassword = async (data: FieldValues) => {
-    const toastId = toast.loading("Uploading Category...");
+    const toastId = toast.loading("Reset Password...");
 
     const resetData = { ...data, phoneNumber: number };
 
     try {
       const res = await resetPass(resetData).unwrap();
       if (res) {
-        toast.success("Category Uploaded successfully", { id: toastId });
+        toast.success("Reset Password successfully", { id: toastId });
         router.push("/login");
       }
     } catch (err: any) {
-      toast.error(err.data?.message || "Faild to Uploading Category", {
+      toast.error(err.data?.message || "Faild to Reset Password", {
         id: toastId,
       });
     }
   };
   return (
     <div className="max-w-xl mx-auto h-screen flex justify-center items-center">
-      <div className="space-y-12 w-full ">
-        <h1 className="text-3xl font-medium text-primary text-center">
-          Forget password
-        </h1>
-        <MyFormWrapper onSubmit={otpSend}>
-          <MyFormInput name="phoneNumber" label="Mobile Number" />
-          <MyBtn name="Next" width="w-full" />
-        </MyFormWrapper>
-      </div>
-      <div className="space-y-12 w-full ">
-        <h1 className="text-3xl font-medium text-primary text-center">
-          OTP Verification
-        </h1>
-        <MyFormWrapper onSubmit={verifyOtp}>
-          <MyFormInput
-            name="otp"
-            label="We’ve sent a code reset to: 12324981273"
-          />
-          <MyBtn name="Next" width="w-full" />
-        </MyFormWrapper>
-      </div>
-      <div className="space-y-12 w-full ">
-        <h1 className="text-3xl font-medium text-primary text-center">
-          Set new password
-        </h1>
-        <MyFormWrapper onSubmit={resetPassword}>
-          <MyFormInput
-            name="otp"
-            label="We’ve sent a code reset to: 12324981273"
-          />
-          <MyBtn name="Save" width="w-full" />
-        </MyFormWrapper>
-      </div>
+      {stage === "otpSend" ? (
+        <div className="space-y-12 w-full ">
+          <h1 className="text-3xl font-medium text-primary text-center">
+            Forget password
+          </h1>
+          <MyFormWrapper onSubmit={otpSend} className="space-y-8">
+            <div className="space-y-2">
+              <p>Mobile Number</p>
+              <PhoneInput
+                country={"us"}
+                value={number}
+                onChange={(phone) => setNumber(phone)}
+                inputStyle={{
+                  width: "100%",
+                  height: "48px",
+                  fontSize: "16px",
+                  borderBlockColor: "#7E1F7F40",
+                }}
+              />
+            </div>
+            <MyBtn name="Next" width="w-full" />
+          </MyFormWrapper>
+        </div>
+      ) : stage === "verifyOtp" ? (
+        <div className="space-y-12 w-full ">
+          <h1 className="text-3xl font-medium text-primary text-center">
+            OTP Verification
+          </h1>
+          <MyFormWrapper onSubmit={verifyOtp}>
+            <MyFormInput name="otp" label="We’ve sent a code to you number" />
+            <MyBtn name="Next" width="w-full" />
+          </MyFormWrapper>
+        </div>
+      ) : (
+        <div className="space-y-12 w-full ">
+          <h1 className="text-3xl font-medium text-primary text-center">
+            Set new password
+          </h1>
+          <MyFormWrapper onSubmit={resetPassword}>
+            <MyFormInput name="password" label="Enter New Password" />
+            <MyBtn name="Save" width="w-full" />
+          </MyFormWrapper>
+        </div>
+      )}
     </div>
   );
 };

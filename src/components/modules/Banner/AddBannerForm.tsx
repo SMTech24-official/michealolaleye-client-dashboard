@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 const AddBannerForm = () => {
   const [addBanner] = useAddBannerMutation();
-  const router = useRouter()
+  const router = useRouter();
 
   const handleSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Uploading Banner...");
@@ -25,7 +25,7 @@ const AddBannerForm = () => {
       const res = await addBanner(formData).unwrap();
       if (res) {
         toast.success("Banner Uploaded successfully", { id: toastId });
-        router.push('/banner')
+        router.push("/banner");
       }
     } catch (err: any) {
       toast.error(err.data?.message || "Faild to Uploading Banner", {
@@ -38,7 +38,7 @@ const AddBannerForm = () => {
       <h2 className="text-2xl font-semibold text-center">Banner</h2>
       <MyFormWrapper onSubmit={handleSubmit}>
         <MyFormInput name="title" label="Book name" />
-        <MyFormInput name="creator" label="Writter name" />
+        <MyFormInput name="creator" label="Writer name" />
         <MyFormInput name="image" type="file" label="Upload photo" />
 
         <MyBtn name="Add new" width="w-full" />

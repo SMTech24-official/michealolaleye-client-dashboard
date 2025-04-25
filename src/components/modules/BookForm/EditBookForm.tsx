@@ -53,8 +53,6 @@ const EditBookForm = () => {
 
     const bookData = { ...data, totalPages, price, releaseDate, type };
 
-    // const { id, ...restDataa } = bookData;
-
     const formData = new FormData();
 
     if (data.coverImage) {
@@ -95,7 +93,7 @@ const EditBookForm = () => {
       <MyFormWrapper onSubmit={handleSubmit} defaultValues={defaultData}>
         <div className="grid md:grid-cols-2 gap-y-3 gap-x-6 ">
           <MyFormInput name="bookName" label="Book name" />
-          <MyFormInput name="writerName" label="Writter name" />
+          <MyFormInput name="writerName" label="Writer name" />
           <MyFormInput name="category" label="Category" />
           {bookType === "EBOOK" ? (
             <MyFormInput name="totalPages" label="Total page" />
@@ -104,7 +102,7 @@ const EditBookForm = () => {
           )}
           <MyFormInput name="length" label="Length" />
           <MyFormInput name="language" label="Language" />
-          <MyFormInput name="formate" label="Formet" />
+          <MyFormInput name="formate" label="Format" />
           <MyFormInput name="publisher" label="Publisher" />
           <MyFormInput name="releaseDate" type="date" label="Release" />
           <MyFormInput name="price" label="Price" />
@@ -122,7 +120,14 @@ const EditBookForm = () => {
 
         <div className="w-1/2 mx-auto flex gap-4 items-center">
           <div className="w-4/5">
-            <MyFormInput name="file" type="file" label="Upload pdf" />
+            <MyFormInput
+              name="file"
+              type="file"
+              label={bookType === "EBOOK" ? "Upload pdf" : "Upload Audiobook"}
+              filePlaceholder={
+                bookType === "EBOOK" ? "Upload pdf" : "mp3, aac, flac..."
+              }
+            />
           </div>
           <Image src={defaultData?.file} alt="image" height={150} width={150} />
         </div>

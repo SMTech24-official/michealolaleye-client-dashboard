@@ -61,10 +61,10 @@ const BestsellingTable = () => {
         <TableHeader>
           <TableRow>
             <TableHead className="text-xl font-medium text-black">
-              Tittle
+              Title
             </TableHead>
             <TableHead className="text-xl font-medium text-black">
-              Writter
+              Writer
             </TableHead>
             <TableHead className="text-xl font-medium text-black">
               Category

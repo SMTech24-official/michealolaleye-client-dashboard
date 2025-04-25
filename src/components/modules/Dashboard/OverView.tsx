@@ -14,7 +14,7 @@ const OverView = () => {
     <div className="grid md:grid-cols-3 grid-cols-1 gap-7">
       <div className="border border-[#FAE0FA] rounded-xl p-5 space-y-5">
         <div className="flex justify-between gap-1">
-          <p className="text-xl">Total Ebook</p>
+          <p className="text-xl">Total Ebooks</p>
           <div className="bg-[#FAE0FA] p-3 rounded-xl">
             <Book />
           </div>
@@ -24,7 +24,7 @@ const OverView = () => {
       </div>
       <div className="border border-[#FAE0FA] rounded-xl p-5 space-y-5">
         <div className="flex justify-between gap-1">
-          <p className="text-xl">Total Audiobook</p>
+          <p className="text-xl">Total Audiobooks</p>
           <div className="bg-[#FAE0FA] p-3 rounded-xl">
             <BookHeadphones />
           </div>

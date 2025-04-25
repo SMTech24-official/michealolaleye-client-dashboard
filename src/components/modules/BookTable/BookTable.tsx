@@ -48,7 +48,9 @@ const BookTable = () => {
   return (
     <div className="bg-[#FFF8FF80] p-4 rounded-lg">
       <div className="flex justify-between gap-1">
-        <h2 className="text-2xl font-medium">Audiobook</h2>
+        <h2 className="text-2xl font-medium">
+          {pathName === "/ebook" ? "Ebook" : "Audiobook"}
+        </h2>
 
         <div className="flex gap-12 ">
           <div className="inline-block">
@@ -58,22 +60,24 @@ const BookTable = () => {
               </button>
             </Link>
           </div>
-          <div className="inline-block">
-            <button
-              onClick={() => setSearchValue("")}
-              className="bg-primary px-6 py-3 rounded-lg flex items-center gap-2 text-white"
-            >
-              All
-            </button>
-          </div>
-          <MyFormWrapper onSubmit={handleSubmit}>
-            <div className="relative">
-              <MyFormInput name="search" inputClassName="px-12" />
-              <button>
-                <Search className="absolute top-3 left-2 " />
+          <div className="flex gap-3 ">
+            <MyFormWrapper onSubmit={handleSubmit}>
+              <div className="relative">
+                <MyFormInput name="search" inputClassName="px-12" />
+                <button>
+                  <Search className="absolute top-3 left-2 " />
+                </button>
+              </div>
+            </MyFormWrapper>
+            <div className="inline-block">
+              <button
+                onClick={() => setSearchValue("")}
+                className="bg-primary px-6 py-3 rounded-lg flex items-center gap-2 text-white"
+              >
+                All
               </button>
             </div>
-          </MyFormWrapper>
+          </div>
         </div>
       </div>
       {item.length <= 0 ? (
@@ -85,10 +89,10 @@ const BookTable = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="text-xl font-medium text-black">
-                Tittle
+                Title
               </TableHead>
               <TableHead className="text-xl font-medium text-black">
-                Writter
+                Writer
               </TableHead>
               <TableHead className="text-xl font-medium text-black">
                 Category

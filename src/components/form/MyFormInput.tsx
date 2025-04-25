@@ -30,6 +30,7 @@ interface MyFormInputProps {
   radioItemClassName?: string;
   isMultiple?: boolean;
   disabled?: boolean;
+  filePlaceholder?: string;
 }
 
 const MyFormInput = ({
@@ -51,6 +52,7 @@ const MyFormInput = ({
   radioItemClassName,
   isMultiple = false,
   disabled = false,
+  filePlaceholder,
 }: MyFormInputProps) => {
   const { control, getValues, setValue } = useFormContext();
   const inputValue = useWatch({ control, name }) ?? ""; // Ensure no undefined value
@@ -137,7 +139,7 @@ const MyFormInput = ({
                           <line x1="12" y1="3" x2="12" y2="15"></line>
                         </svg>
                       </div>
-                      <p className="text-gray-700 text-center">Upload Images</p>
+                      <p className="text-gray-700 text-center">{filePlaceholder || "Upload Image"}</p>
                     </>
                   )}
                   <input

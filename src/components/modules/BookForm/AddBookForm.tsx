@@ -72,7 +72,7 @@ const AddBookForm = () => {
       <MyFormWrapper onSubmit={handleSubmit}>
         <div className="grid md:grid-cols-2 gap-y-3 gap-x-6 ">
           <MyFormInput name="bookName" label="Book name" />
-          <MyFormInput name="writerName" label="Writter name" />
+          <MyFormInput name="writerName" label="Writer name" />
           <MyFormInput name="category" label="Category" />
           {bookType === "EBOOK" ? (
             <MyFormInput name="totalPages" label="Total page" />
@@ -81,14 +81,21 @@ const AddBookForm = () => {
           )}
           <MyFormInput name="length" label="Length" />
           <MyFormInput name="language" label="Language" />
-          <MyFormInput name="formate" label="Formet" />
+          <MyFormInput name="formate" label="Format" />
           <MyFormInput name="publisher" label="Publisher" />
           <MyFormInput name="releaseDate" type="date" label="Release" />
           <MyFormInput name="price" label="Price" />
           <MyFormInput name="description" type="textarea" label="Description" />
           <MyFormInput name="coverImage" type="file" label="Upload photo" />
         </div>
-        <MyFormInput name="file" type="file" label="Upload pdf" />
+        <MyFormInput
+          name="file"
+          type="file"
+          label={bookType === "EBOOK" ? "Upload pdf" : "Upload Audiobook"}
+          filePlaceholder={
+            bookType === "EBOOK" ? "Upload pdf" : "mp3, aac, flac..."
+          }
+        />
 
         <div className="max-w-2xl mx-auto my-7 space-y-4">
           <button className="bg-primary border border-primary w-full rounded-lg py-2 text-white mb-5">

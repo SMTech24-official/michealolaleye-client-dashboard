@@ -86,9 +86,9 @@ const DeleteModal = ({ id, type, btn }: DeleteModalProps) => {
               <div className="flex md:gap-5 gap-3">
                 <button
                   onClick={() => setOpen(false)}
-                  className="bg-red-400 py-2 px-6 rounded-lg font-normal text-white"
+                  className="bg-red-600 py-2 px-6 rounded-lg font-normal text-white"
                 >
-                  Cancle
+                  Cancel
                 </button>
                 <button
                   onClick={handleDelete}
