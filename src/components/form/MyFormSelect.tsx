@@ -42,7 +42,7 @@ const MyFormSelect = ({
       {label && (
         <label
           htmlFor={name}
-          className={cn("text-sm font-medium", labelClassName)}
+          className={cn("md:text-xl text-[15px] text-grayText font-medium mb-1", labelClassName)}
         >
           {label}
         </label>
@@ -69,7 +69,7 @@ const MyFormSelect = ({
               onFocus={() => setIsOpen(true)}
               onBlur={() => setIsOpen(false)}
               className={cn(
-                "w-full  px-4 py-2 border rounded-md focus:outline-none focus:ring-2 appearance-none",
+                "w-full px-4 py-3 md:text-[17px] rounded-md focus:outline-none focus:ring-2 border !border-[#7E1F7F40] bg-transparent appearance-none",
                 "transition-all ease-in-out ",
                 error ? "border-danger" : "border-gray-300",
                 selectClassName

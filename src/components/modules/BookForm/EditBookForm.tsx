@@ -2,11 +2,14 @@
 "use client";
 import Spinner from "@/components/common/Spinner";
 import MyFormInput from "@/components/form/MyFormInput";
+import MyFormSelect from "@/components/form/MyFormSelect";
 import MyFormWrapper from "@/components/form/MyFormWrapper";
 import {
   useGetSingleBookQuery,
   useUpdateBookMutation,
 } from "@/redux/features/book/book.api";
+import { useGetAllCategoryQuery } from "@/redux/features/outher/other.api";
+import { TOptions } from "@/types/global.type";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
@@ -18,6 +21,17 @@ const EditBookForm = () => {
   const { id } = useParams();
   const { data, isFetching } = useGetSingleBookQuery(id);
   const [updateBook] = useUpdateBookMutation();
+  const { data: category } = useGetAllCategoryQuery(undefined);
+
+  const categoryData = category?.data;
+
+  const categoryOpitons: TOptions[] = categoryData?.map(
+    (item: { id: string; name: string }) => ({
+      label: item.name,
+      keyOption: item.id,
+      value: item.id,
+    })
+  );
 
   // handle form
   const handleSubmit = async (data: FieldValues) => {
@@ -106,9 +120,16 @@ const EditBookForm = () => {
           <MyFormInput name="publisher" label="Publisher" />
           <MyFormInput name="releaseDate" type="date" label="Release" />
           <MyFormInput name="price" label="Price" />
+          <MyFormSelect
+            name="category"
+            options={categoryOpitons}
+            label="Select Category"
+          />
           <MyFormInput name="description" type="textarea" label="Description" />
-          <div className="grid grid-cols-2 gap-4 items-center">
-            <MyFormInput name="coverImage" type="file" label="Upload photo" />
+          <div className=" flex gap-4 items-center">
+            <div className="w-4/5">
+              <MyFormInput name="coverImage" type="file" label="Upload photo" />
+            </div>
             <Image
               src={defaultData?.coverImage}
               alt="image"
@@ -116,20 +137,24 @@ const EditBookForm = () => {
               width={150}
             />
           </div>
-        </div>
-
-        <div className="w-1/2 mx-auto flex gap-4 items-center">
-          <div className="w-4/5">
-            <MyFormInput
-              name="file"
-              type="file"
-              label={bookType === "EBOOK" ? "Upload pdf" : "Upload Audiobook"}
-              filePlaceholder={
-                bookType === "EBOOK" ? "Upload pdf" : "mp3, aac, flac..."
-              }
+          <div className=" flex gap-4 items-center">
+            <div className="w-4/5">
+              <MyFormInput
+                name="file"
+                type="file"
+                label={bookType === "EBOOK" ? "Upload pdf" : "Upload Audiobook"}
+                filePlaceholder={
+                  bookType === "EBOOK" ? "Upload pdf" : "mp3, aac, flac..."
+                }
+              />
+            </div>
+            <Image
+              src={defaultData?.file}
+              alt="image"
+              height={150}
+              width={150}
             />
           </div>
-          <Image src={defaultData?.file} alt="image" height={150} width={150} />
         </div>
 
         <div className="max-w-2xl mx-auto my-7 space-y-4">

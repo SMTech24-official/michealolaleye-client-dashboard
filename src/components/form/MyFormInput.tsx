@@ -139,7 +139,9 @@ const MyFormInput = ({
                           <line x1="12" y1="3" x2="12" y2="15"></line>
                         </svg>
                       </div>
-                      <p className="text-gray-700 text-center">{filePlaceholder || "Upload Image"}</p>
+                      <p className="text-gray-700 text-center">
+                        {filePlaceholder || "Upload Image"}
+                      </p>
                     </>
                   )}
                   <input
@@ -224,7 +226,7 @@ const MyFormInput = ({
                     : type
                 }
                 className={cn(
-                  "w-full px-4 py-3 md:text-[17px] rounded-md focus:outline-none focus:ring-2 border !border-[#7E1F7F40] bg-transparent ",
+                  "w-full px-4 py-3 md:text-[17px] rounded-md focus:outline-none focus:ring-2 border !border-[#7E1F7F40] bg-transparent",
                   error ? "border-red-500" : "border-gray-300",
                   inputClassName
                 )}

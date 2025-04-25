@@ -14,12 +14,12 @@ const CommonCategory = () => {
     return <Spinner />;
   }
 
-  const bannerData = data?.data;
+  const categoryData = data?.data;
   return (
     <div>
       <h2 className="text-2xl font-semibold text-center mb-14">Category</h2>
       <div className="grid grid-cols-7 gap-6">
-        {bannerData.map((item: any) => (
+        {categoryData.map((item: any) => (
           <div key={item.id} className="rounded-xl shadow-lg p-2 relative">
             <div className="flex flex-col items-center gap-3">
               <Image
