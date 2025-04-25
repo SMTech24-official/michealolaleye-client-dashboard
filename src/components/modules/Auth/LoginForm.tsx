@@ -24,7 +24,7 @@ const LoginForm = () => {
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("login...");
 
-    const loginData = { ...data, phoneNumber: number };
+    const loginData = { ...data, phoneNumber: `+${number}` };
 
     try {
       const res = await login(loginData).unwrap();

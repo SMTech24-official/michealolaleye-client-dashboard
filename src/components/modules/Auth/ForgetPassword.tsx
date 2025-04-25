@@ -28,7 +28,7 @@ const ForgetPassword = () => {
     const toastId = toast.loading("OTP sending...");
 
     try {
-      const res = await sendOtp({ phoneNumber: number }).unwrap();
+      const res = await sendOtp({ phoneNumber: `+${number}` }).unwrap();
       if (res) {
         toast.success("OTP send successfully", { id: toastId });
         setStage("verifyOtp");
@@ -44,7 +44,7 @@ const ForgetPassword = () => {
   const verifyOtp = async (data: FieldValues) => {
     const toastId = toast.loading("OTP verify...");
 
-    const verifyData = { ...data, phoneNumber: number };
+    const verifyData = { ...data, phoneNumber: `+${number}` };
 
     try {
       const res = await varifyOtp(verifyData).unwrap();
@@ -62,7 +62,7 @@ const ForgetPassword = () => {
   const resetPassword = async (data: FieldValues) => {
     const toastId = toast.loading("Reset Password...");
 
-    const resetData = { ...data, phoneNumber: number };
+    const resetData = { ...data, phoneNumber: `+${number}` };
 
     try {
       const res = await resetPass(resetData).unwrap();
