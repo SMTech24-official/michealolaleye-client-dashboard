@@ -20,7 +20,9 @@ const RecommendedTable = () => {
     return <Spinner />;
   }
 
-  const item: any = data?.data;
+  const item: any = data?.data?.data;
+
+  console.log(data?.data?.data);
 
   return (
     <div className="bg-[#FFF8FF80] p-4 rounded-lg">
@@ -49,11 +51,11 @@ const RecommendedTable = () => {
         <TableBody>
           {item?.map((item: any, idx: number) => (
             <TableRow key={idx} className="text-base ">
-              <TableCell className="py-4">{item.bookName}</TableCell>
-              <TableCell>{item.writerName}</TableCell>
-              <TableCell>{item.perseCount}</TableCell>
+              <TableCell className="py-4">{item?.bookName}</TableCell>
+              <TableCell>{item?.writerName}</TableCell>
+              <TableCell>{item?.perseCount}</TableCell>
               <TableCell className="flex justify-end">
-                <DeleteModal btn="btn" id={item.id} type="recomendedBook" />
+                <DeleteModal btn="btn" id={item?.id} type="recomendedBook" />
               </TableCell>
             </TableRow>
           ))}

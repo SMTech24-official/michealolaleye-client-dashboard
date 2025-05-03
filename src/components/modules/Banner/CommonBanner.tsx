@@ -15,11 +15,12 @@ const CommonBanner = () => {
   }
 
   const bannerData = data?.data;
+  console.log(data);
   return (
     <div>
       <h2 className="text-2xl font-semibold text-center mb-14">Banner</h2>
       <div className="grid grid-cols-3 gap-6">
-        {bannerData.map((item: any) => (
+        {bannerData?.map((item: any) => (
           <div key={item.id} className="rounded-xl shadow-lg p-5 relative">
             <div className="flex items-center">
               <div className="w-2/3">

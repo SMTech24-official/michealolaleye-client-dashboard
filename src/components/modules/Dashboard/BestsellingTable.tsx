@@ -77,10 +77,10 @@ const BestsellingTable = () => {
         <TableBody>
           {item?.map((item: any, idx: number) => (
             <TableRow key={idx} className="text-base ">
-              <TableCell className="py-4">{item.bookName}</TableCell>
-              <TableCell>{item.writerName}</TableCell>
-              <TableCell>{item.category}</TableCell>
-              <TableCell className="text-end">{item.perseCount}</TableCell>
+              <TableCell className="py-4">{item?.bookName}</TableCell>
+              <TableCell>{item?.writerName}</TableCell>
+              <TableCell>{item?.category}</TableCell>
+              <TableCell className="text-end">{item?.perseCount}</TableCell>
             </TableRow>
           ))}
         </TableBody>

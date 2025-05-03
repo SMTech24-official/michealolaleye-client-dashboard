@@ -59,15 +59,15 @@ const CommonProfile = () => {
       <div className="grid md:grid-cols-2 gap-5">
         <div className="space-y-2">
           <p className="font-medium">Name</p>
-          <div className="bg-secondary p-4 rounded-lg">{user.fullName}</div>
+          <div className="bg-secondary p-4 rounded-lg">{user?.fullName}</div>
         </div>
         <div className="space-y-2">
           <p className="font-medium">Your Phone Number</p>
-          <div className="bg-secondary p-4 rounded-lg">{user.phoneNumber}</div>
+          <div className="bg-secondary p-4 rounded-lg">{user?.phoneNumber}</div>
         </div>
         <div className="space-y-2">
           <p className="font-medium">Your Location</p>
-          <div className="bg-secondary p-4 rounded-lg">{user.location}</div>
+          <div className="bg-secondary p-4 rounded-lg">{user?.location}</div>
         </div>
       </div>
     </div>

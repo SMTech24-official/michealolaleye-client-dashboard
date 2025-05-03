@@ -80,7 +80,7 @@ const AppSidebar = () => {
 
         <SidebarGroupContent>
           <SidebarMenu className="px-4 space-y-1">
-            {items.map((item) => (
+            {items?.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton
                   asChild

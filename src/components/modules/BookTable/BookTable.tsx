@@ -80,7 +80,7 @@ const BookTable = () => {
           </div>
         </div>
       </div>
-      {item.length <= 0 ? (
+      {item?.length <= 0 ? (
         <div className="text-lg font-medium text-center text-primary">
           No data found
         </div>

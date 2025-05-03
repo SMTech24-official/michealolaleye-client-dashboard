@@ -35,7 +35,7 @@ const CommonRewards = () => {
             </Link>
           </div>
           <div className="space-y-6">
-            {pointData.map((item: any) => (
+            {pointData?.map((item: any) => (
               <div key={item.id} className="rounded-xl shadow-lg p-5 relative">
                 <div className="flex items-center gap-3">
                   <div className="bg-secondary/50 p-3 rounded-full">
@@ -61,7 +61,7 @@ const CommonRewards = () => {
           </div>
           <div className="space-y-6">
             <div className="grid grid-cols-2 gap-5">
-              {redeemData.map((item: any) => (
+              {redeemData?.map((item: any) => (
                 <div
                   key={item.id}
                   className="rounded-xl shadow-lg p-3 relative bg-secondary"
