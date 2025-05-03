@@ -52,7 +52,7 @@ const LoginForm = () => {
         <div className="space-y-2">
           <p className="text-xl font-medium">Mobile Number</p>
           <PhoneInput
-            country={"us"}
+            country={"ng"}
             value={number}
             onChange={(phone) => setNumber(phone)}
             inputStyle={{
