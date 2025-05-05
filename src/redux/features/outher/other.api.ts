@@ -27,6 +27,15 @@ export const bookApi = baseApi.injectEndpoints({
       invalidatesTags: ["Banner"],
     }),
 
+    updateBanner: builder.mutation({
+      query: (args) => ({
+        url: `/banner/${args.id}`,
+        method: "PUT",
+        body: args.data,
+      }),
+      invalidatesTags: ["Banner"],
+    }),
+
     getAllCategory: builder.query({
       query: () => ({
         url: "/category",
@@ -48,6 +57,15 @@ export const bookApi = baseApi.injectEndpoints({
       query: (id) => ({
         url: `/category/${id}`,
         method: "DELETE",
+      }),
+      invalidatesTags: ["Category"],
+    }),
+
+    updateCategory: builder.mutation({
+      query: (args) => ({
+        url: `/category/${args.id}`,
+        method: "PUT",
+        body: args.data,
       }),
       invalidatesTags: ["Category"],
     }),
@@ -108,9 +126,11 @@ export const {
   useAddBannerMutation,
   useGetAllBannerQuery,
   useDeleteBannerMutation,
+  useUpdateBannerMutation,
   useGetAllCategoryQuery,
   useAddCategoryMutation,
   useDeleteCategoryMutation,
+  useUpdateCategoryMutation,
   useGetPoinsQuery,
   useAddPoinsMutation,
   useDeletePoinsMutation,

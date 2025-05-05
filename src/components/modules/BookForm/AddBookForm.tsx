@@ -28,7 +28,23 @@ const AddBookForm = () => {
 
   const handleSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Uploading Book...");
-    console.log(data);
+
+    if (bookType === "EBOOK") {
+      const file: File = data.file;
+
+      if (file.type !== "application/pdf") {
+        toast.error("Ebook file must be a PDF.", { id: toastId });
+        return;
+      }
+    } else {
+      const file: File = data.file;
+      if (!file?.type.startsWith("audio/")) {
+        toast.error("Audiobook file must be an audio format (mp3, aac, etc).", {
+          id: toastId,
+        });
+        return;
+      }
+    }
 
     const totalPages = parseInt(data.totalPages, 10);
 
@@ -105,7 +121,12 @@ const AddBookForm = () => {
             label="Select Category"
           />
           <MyFormInput name="description" type="textarea" label="Description" />
-          <MyFormInput name="coverImage" type="file" label="Upload photo" />
+          <MyFormInput
+            name="coverImage"
+            type="file"
+            label="Upload photo"
+            acceptType="image/*"
+          />
           <MyFormInput
             name="file"
             type="file"

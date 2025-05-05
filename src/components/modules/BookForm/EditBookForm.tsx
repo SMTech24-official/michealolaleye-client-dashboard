@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
+import { format } from "date-fns";
 
 const EditBookForm = () => {
   const bookType = useSearchParams().get("type");
@@ -36,7 +37,25 @@ const EditBookForm = () => {
   // handle form
   const handleSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Uploading Book...");
-    console.log(data);
+
+    if (data.file instanceof File) {
+      if (bookType === "EBOOK") {
+        if (data.file.type !== "application/pdf") {
+          toast.error("Ebook file must be a PDF.", { id: toastId });
+          return;
+        }
+      } else {
+        if (!data.file.type.startsWith("audio/")) {
+          toast.error(
+            "Audiobook file must be an audio format (mp3, aac, etc).",
+            {
+              id: toastId,
+            }
+          );
+          return;
+        }
+      }
+    }
 
     const totalPages = parseInt(data.totalPages, 10);
 
@@ -98,6 +117,8 @@ const EditBookForm = () => {
   }
 
   const defaultData = data?.data;
+  const date = new Date(defaultData?.releaseDate);
+  const formattedDate = format(date, "dd-MMM-yyyy");
 
   return (
     <div>
@@ -118,7 +139,11 @@ const EditBookForm = () => {
           <MyFormInput name="language" label="Language" />
           <MyFormInput name="formate" label="Format" />
           <MyFormInput name="publisher" label="Publisher" />
-          <MyFormInput name="releaseDate" type="date" label="Release" />
+          <MyFormInput
+            name="releaseDate"
+            type="date"
+            label={`Release: (${formattedDate})`}
+          />
           <MyFormInput name="price" label="Price" />
           <MyFormSelect
             name="category"
@@ -128,7 +153,12 @@ const EditBookForm = () => {
           <MyFormInput name="description" type="textarea" label="Description" />
           <div className=" flex gap-4 items-center">
             <div className="w-4/5">
-              <MyFormInput name="coverImage" type="file" label="Upload photo" />
+              <MyFormInput
+                name="coverImage"
+                type="file"
+                label="Upload photo"
+                acceptType="image/*"
+              />
             </div>
             <Image
               src={defaultData?.coverImage}
@@ -148,12 +178,20 @@ const EditBookForm = () => {
                 }
               />
             </div>
-            <Image
-              src={defaultData?.file}
-              alt="image"
-              height={150}
-              width={150}
-            />
+            {bookType === "EBOOK" ? (
+              <a
+                href={defaultData?.file}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline"
+              >
+                View PDF
+              </a>
+            ) : (
+              <audio controls src={defaultData?.file}>
+                Your browser does not support the audio element.
+              </audio>
+            )}
           </div>
         </div>
 

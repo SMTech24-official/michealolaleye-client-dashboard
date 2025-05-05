@@ -6,6 +6,7 @@ import Spinner from "@/components/common/Spinner";
 import { useGetAllBannerQuery } from "@/redux/features/outher/other.api";
 import Image from "next/image";
 import Link from "next/link";
+import EditBannerModal from "./EditBannerModal";
 
 const CommonBanner = () => {
   const { data, isFetching } = useGetAllBannerQuery(undefined);
@@ -15,7 +16,7 @@ const CommonBanner = () => {
   }
 
   const bannerData = data?.data;
-  console.log(data);
+
   return (
     <div>
       <h2 className="text-2xl font-semibold text-center mb-14">Banner</h2>
@@ -38,6 +39,9 @@ const CommonBanner = () => {
 
             <div className="absolute top-0 right-0">
               <DeleteModal btn="icon" type="banner" id={item.id} />
+            </div>
+            <div className="absolute top-0 left-0">
+              <EditBannerModal payload={item} />
             </div>
           </div>
         ))}

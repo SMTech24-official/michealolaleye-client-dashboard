@@ -31,6 +31,7 @@ interface MyFormInputProps {
   isMultiple?: boolean;
   disabled?: boolean;
   filePlaceholder?: string;
+  acceptType?: "image/*";
 }
 
 const MyFormInput = ({
@@ -53,6 +54,7 @@ const MyFormInput = ({
   isMultiple = false,
   disabled = false,
   filePlaceholder,
+  acceptType,
 }: MyFormInputProps) => {
   const { control, getValues, setValue } = useFormContext();
   const inputValue = useWatch({ control, name }) ?? ""; // Ensure no undefined value
@@ -147,7 +149,7 @@ const MyFormInput = ({
                   <input
                     type="file"
                     id={name}
-                    accept="image/*"
+                    accept={acceptType}
                     multiple={isMultiple}
                     className="hidden"
                     disabled={disabled}

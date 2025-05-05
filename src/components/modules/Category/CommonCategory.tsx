@@ -6,6 +6,7 @@ import Spinner from "@/components/common/Spinner";
 import { useGetAllCategoryQuery } from "@/redux/features/outher/other.api";
 import Image from "next/image";
 import Link from "next/link";
+import EditCategoryModal from "./EditCategoryModal";
 
 const CommonCategory = () => {
   const { data, isFetching } = useGetAllCategoryQuery(undefined);
@@ -34,6 +35,9 @@ const CommonCategory = () => {
 
             <div className="absolute top-0 right-0">
               <DeleteModal btn="icon" type="category" id={item.id} />
+            </div>
+            <div className="absolute top-0 left-0">
+              <EditCategoryModal payload={item}/>
             </div>
           </div>
         ))}

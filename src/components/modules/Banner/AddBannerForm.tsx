@@ -91,6 +91,11 @@ const AddBannerForm = () => {
 
   const item: any = data?.data?.data;
 
+  const defaultData = {
+    writerName: selectedBook?.writerName,
+    bookName: selectedBook?.bookName,
+  };
+
   return (
     <div className="w-2/3 mx-auto p-5 space-y-12">
       <h2 className="text-2xl font-semibold text-center">Banner</h2>
@@ -180,25 +185,9 @@ const AddBannerForm = () => {
         </div>
       </div>
 
-      <div className="flex justify-between gap-6">
-        <div className="space-y-2 w-full">
-          <p className="md:text-xl text-[15px] text-grayText font-medium">
-            Book name
-          </p>
-          <div className="w-full px-4 py-4 h-14 md:text-[17px] rounded-md border !border-[#7E1F7F40]">
-            {selectedBook?.bookName}
-          </div>
-        </div>
-        <div className="space-y-2 w-full">
-          <p className="md:text-xl text-[15px] text-grayText font-medium">
-            Writer name
-          </p>
-          <div className="w-full px-4 py-4 h-14 md:text-[17px] rounded-md border !border-[#7E1F7F40]">
-            {selectedBook?.writerName}
-          </div>
-        </div>
-      </div>
-      <MyFormWrapper onSubmit={handleSubmit}>
+      <MyFormWrapper onSubmit={handleSubmit} defaultValues={defaultData}>
+        <MyFormInput name="bookName" label="Book name" />
+        <MyFormInput name="writerName" label="Writer name" />
         <MyFormInput name="image" type="file" label="Banner photo" />
 
         <MyBtn name="Add new" width="w-full" />
