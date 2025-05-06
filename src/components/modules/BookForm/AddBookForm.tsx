@@ -22,7 +22,7 @@ const AddBookForm = () => {
     (item: { id: string; name: string }) => ({
       label: item.name,
       keyOption: item.id,
-      value: item.id,
+      value: item.name,
     })
   );
 
@@ -103,7 +103,6 @@ const AddBookForm = () => {
         <div className="grid md:grid-cols-2 gap-y-3 gap-x-6 ">
           <MyFormInput name="bookName" label="Book name" />
           <MyFormInput name="writerName" label="Writer name" />
-          <MyFormInput name="category" label="Category" />
           {bookType === "EBOOK" ? (
             <MyFormInput name="totalPages" label="Total page" />
           ) : (
