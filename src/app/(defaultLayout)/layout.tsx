@@ -4,8 +4,7 @@ import AppSidebar from "@/components/shared/AppSidebar";
 import Navbar from "@/components/shared/Navbar";
 
 export const metadata: Metadata = {
-  title: "Insightify",
-  description: "Transform Voice, Images, and Videos into Text",
+  title: "MFM EBOOKS"
 };
 
 const CommonLayout = ({ children }: { children: React.ReactNode }) => {
