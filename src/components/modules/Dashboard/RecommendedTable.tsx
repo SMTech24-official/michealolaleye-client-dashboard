@@ -22,8 +22,6 @@ const RecommendedTable = () => {
 
   const item: any = data?.data?.data;
 
-  console.log(data?.data?.data);
-
   return (
     <div className="bg-[#FFF8FF80] p-4 rounded-lg">
       <div className="flex justify-between gap-1 mb-8">

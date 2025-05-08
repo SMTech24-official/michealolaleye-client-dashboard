@@ -20,6 +20,7 @@ import {
   ChartBarStacked,
   UserRound,
   Medal,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -54,6 +55,11 @@ const items = [
     title: "Rewards",
     url: "/rewards",
     icon: Medal,
+  },
+  {
+    title: "User List",
+    url: "/user-list",
+    icon: Users,
   },
   {
     title: "Profile",

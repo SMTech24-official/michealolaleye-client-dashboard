@@ -53,14 +53,10 @@ const AddBannerForm = () => {
   const handleSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Uploading Banner...");
 
-    if (!selectedBook) {
-      toast.warning("Please select a book first", { id: toastId });
-      return;
-    }
-
     const bannerData = {
-      creator: selectedBook?.writerName,
-      title: selectedBook?.bookName,
+      creator: data?.writerName,
+      title: data?.bookName,
+      link: data?.link,
       bookId: selectedBook?.id,
     };
 
@@ -186,9 +182,23 @@ const AddBannerForm = () => {
       </div>
 
       <MyFormWrapper onSubmit={handleSubmit} defaultValues={defaultData}>
-        <MyFormInput name="bookName" label="Book name" />
-        <MyFormInput name="writerName" label="Writer name" />
-        <MyFormInput name="image" type="file" label="Banner photo" />
+        <MyFormInput name="bookName" label="Book name" placeholder="Book" />
+        <MyFormInput
+          name="writerName"
+          label="Writer name"
+          placeholder="Writer"
+        />
+        <MyFormInput
+          name="link"
+          label="URL"
+          placeholder="https://example.com"
+        />
+        <MyFormInput
+          name="image"
+          type="file"
+          label="Banner photo"
+          acceptType="image/*"
+        />
 
         <MyBtn name="Add new" width="w-full" />
       </MyFormWrapper>
