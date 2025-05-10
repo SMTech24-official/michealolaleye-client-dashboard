@@ -18,6 +18,7 @@ import { useState } from "react";
 import { useGetAllUserQuery } from "@/redux/features/user/user.api";
 import Image from "next/image";
 import { FaRegUserCircle } from "react-icons/fa";
+import ChangePasswordModal from "@/components/modules/Auth/ChangePasswordModal";
 
 const UserPage = () => {
   const [searchValue, setSearchValue] = useState<string | undefined>("");
@@ -78,6 +79,9 @@ const UserPage = () => {
             <TableHead className="text-xl font-medium text-black text-end">
               Action
             </TableHead>
+            <TableHead className="text-xl font-medium text-black text-end">
+              Change Password
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -113,6 +117,11 @@ const UserPage = () => {
                   btnText={`${item?.isDeleted ? "Unblock" : "Block"}`}
                   message={`${item?.isDeleted ? "Unblock" : "Block"}`}
                 />
+              </TableCell>
+              <TableCell>
+                <div className="flex justify-end">
+                  <ChangePasswordModal payload={item}/>
+                </div>
               </TableCell>
             </TableRow>
           ))}
