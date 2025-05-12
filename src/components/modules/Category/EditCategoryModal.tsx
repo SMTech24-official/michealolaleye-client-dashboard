@@ -62,7 +62,7 @@ const EditCategoryModal = ({ payload }: { payload: TPayload }) => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="text-center text-2xl">
-              Edit Catrgory
+              Edit Category
             </DialogTitle>
             <DialogDescription></DialogDescription>
             <div className="">

@@ -31,10 +31,17 @@ const CommonRewards = () => {
           <div className="flex justify-between gap-2 mb-6">
             <h2 className="text-xl">Earn Points!</h2>
             <Link href={"add-reward"}>
-              <button className="bg-primary px-5 py-2 text-white rounded-lg">Add New</button>
+              <button className="bg-primary px-5 py-2 text-white rounded-lg">
+                Add New
+              </button>
             </Link>
           </div>
           <div className="space-y-6">
+            {!pointData.length && (
+              <p className="text-lg text-primary text-center my-12">
+                No data found
+              </p>
+            )}
             {pointData?.map((item: any) => (
               <div key={item.id} className="rounded-xl shadow-lg p-5 relative">
                 <div className="flex items-center gap-3">
@@ -60,6 +67,11 @@ const CommonRewards = () => {
             <SeletBookTypeModal />
           </div>
           <div className="space-y-6">
+            {!redeemData.length && (
+              <p className="text-lg text-primary text-center my-12">
+                No data found
+              </p>
+            )}
             <div className="grid grid-cols-2 gap-5">
               {redeemData?.map((item: any) => (
                 <div

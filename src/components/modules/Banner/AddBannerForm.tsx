@@ -170,7 +170,7 @@ const AddBannerForm = () => {
                         onClick={() => handleSelect(item)}
                         className="bg-primary/5 px-5 py-2 rounded-lg text-primary"
                       >
-                        Selcet
+                        Select
                       </button>
                     </TableCell>
                   </TableRow>

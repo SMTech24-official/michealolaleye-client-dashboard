@@ -19,9 +19,11 @@ import { useGetAllUserQuery } from "@/redux/features/user/user.api";
 import Image from "next/image";
 import { FaRegUserCircle } from "react-icons/fa";
 import ChangePasswordModal from "@/components/modules/Auth/ChangePasswordModal";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const UserPage = () => {
   const [searchValue, setSearchValue] = useState<string | undefined>("");
+  const [userIds, setUserId] = useState<string[]>([]);
   const { data, isFetching } = useGetAllUserQuery([
     { name: "searchTerm", value: searchValue },
   ]);
@@ -30,12 +32,20 @@ const UserPage = () => {
     setSearchValue(data.search);
   };
 
+  const handleSelectTruck = (id: string, isChecked: boolean) => {
+    if (isChecked) {
+      setUserId((prev) => [...prev, id]);
+    } else {
+      setUserId((prev) => prev.filter((truckId) => truckId !== id));
+    }
+  };
+
   if (isFetching) {
     return <Spinner />;
   }
 
   const item: any = data?.data?.data;
-  console.log(item);
+
   return (
     <div className="bg-[#FFF8FF80] p-4 rounded-lg">
       <div className="flex justify-between gap-1">
@@ -82,6 +92,9 @@ const UserPage = () => {
             <TableHead className="text-xl font-medium text-black text-end">
               Change Password
             </TableHead>
+            <TableHead className="text-xl font-medium text-black text-end">
+              Select
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -120,7 +133,18 @@ const UserPage = () => {
               </TableCell>
               <TableCell>
                 <div className="flex justify-end">
-                  <ChangePasswordModal payload={item}/>
+                  <ChangePasswordModal payload={item} />
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className="flex justify-end">
+                  <Checkbox
+                    id={`select-${item.id}`}
+                    checked={userIds.includes(item.id)}
+                    onCheckedChange={(checked) =>
+                      handleSelectTruck(item.id, checked === true)
+                    }
+                  />
                 </div>
               </TableCell>
             </TableRow>
