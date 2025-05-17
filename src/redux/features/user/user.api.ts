@@ -36,6 +36,14 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+
+    sendNotification: builder.mutation({
+      query: (data) => ({
+        url: `/notifications/send-notification`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -43,4 +51,5 @@ export const {
   useGetAllUserQuery,
   useGetSingleUserQuery,
   useBlackUserMutation,
+  useSendNotificationMutation
 } = userApi;

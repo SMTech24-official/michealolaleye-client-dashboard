@@ -5,6 +5,7 @@ import MyFormSelect from "@/components/form/MyFormSelect";
 import MyFormWrapper from "@/components/form/MyFormWrapper";
 import { useAddBookMutation } from "@/redux/features/book/book.api";
 import { useGetAllCategoryQuery } from "@/redux/features/outher/other.api";
+import { useSendNotificationMutation } from "@/redux/features/user/user.api";
 import { TOptions } from "@/types/global.type";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -15,6 +16,7 @@ const AddBookForm = () => {
   const bookType = useSearchParams().get("type");
   const [addBook] = useAddBookMutation();
   const { data } = useGetAllCategoryQuery(undefined);
+  const [sendNotification] = useSendNotificationMutation();
 
   const categoryData = data?.data;
 
@@ -82,9 +84,15 @@ const AddBookForm = () => {
 
     formData.append("data", JSON.stringify(bookData));
 
+    const notificationData = {
+      title: "New Book Available!",
+      body: `Explore our latest addition: "${data.bookName}". Check it out now!`,
+    };
+
     try {
       const res = await addBook(formData).unwrap();
       if (res) {
+        await sendNotification(notificationData).unwrap();
         toast.success("Book Uploaded successfully", { id: toastId });
       }
     } catch (err: any) {
