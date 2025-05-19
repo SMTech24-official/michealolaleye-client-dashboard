@@ -8,7 +8,7 @@ import { useGetAllCategoryQuery } from "@/redux/features/outher/other.api";
 import { useSendNotificationMutation } from "@/redux/features/user/user.api";
 import { TOptions } from "@/types/global.type";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -17,6 +17,7 @@ const AddBookForm = () => {
   const [addBook] = useAddBookMutation();
   const { data } = useGetAllCategoryQuery(undefined);
   const [sendNotification] = useSendNotificationMutation();
+  const router = useRouter();
 
   const categoryData = data?.data;
 
@@ -95,6 +96,12 @@ const AddBookForm = () => {
       if (res) {
         await sendNotification(notificationData).unwrap();
         toast.success("Book Uploaded successfully", { id: toastId });
+
+        if (bookType === "EBOOK") {
+          router.push("/ebook");
+        } else {
+          router.push("/audiobook");
+        }
       }
     } catch (err: any) {
       toast.error(err.data?.message || "Faild to Uploading Book", {
