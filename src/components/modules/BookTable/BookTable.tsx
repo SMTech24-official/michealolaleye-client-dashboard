@@ -18,6 +18,7 @@ import Spinner from "@/components/common/Spinner";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
+import DeleteModal from "@/components/common/DeleteModal";
 
 const BookTable = () => {
   const [searchValue, setSearchValue] = useState<string | undefined>("");
@@ -103,6 +104,9 @@ const BookTable = () => {
               <TableHead className=" text-xl font-medium text-black">
                 Edit
               </TableHead>
+              <TableHead className=" text-xl font-medium text-black">
+                Delete
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -122,6 +126,7 @@ const BookTable = () => {
                     <FaRegEdit className="text-xl font-light" />
                   </Link>
                 </TableCell>
+                <TableCell> <DeleteModal btn="btn" id={item.id} type="book"/></TableCell>
               </TableRow>
             ))}
           </TableBody>

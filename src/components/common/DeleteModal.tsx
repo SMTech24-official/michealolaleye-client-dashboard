@@ -7,7 +7,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useDeleteRecomendedBookMutation } from "@/redux/features/book/book.api";
+import {
+  useDeleteBookMutation,
+  useDeleteRecomendedBookMutation,
+} from "@/redux/features/book/book.api";
 import {
   useDeleteBannerMutation,
   useDeleteCategoryMutation,
@@ -28,7 +31,8 @@ interface DeleteModalProps {
     | "point"
     | "redeem"
     | "recomendedBook"
-    | "blockUser";
+    | "blockUser"
+    | "book";
   btn: "icon" | "btn" | "text";
   btnText?: string;
   message?: string;
@@ -42,6 +46,7 @@ const DeleteModal = ({ id, type, btn, btnText, message }: DeleteModalProps) => {
   const [deleteRedeem] = useDeleteRedeemMutation();
   const [deleteRecomendedBook] = useDeleteRecomendedBookMutation();
   const [blockUser] = useBlackUserMutation();
+  const [deleteBook] = useDeleteBookMutation();
 
   const handleDelete = async () => {
     const toastId = toast.loading(`Processing...`);
@@ -59,6 +64,8 @@ const DeleteModal = ({ id, type, btn, btnText, message }: DeleteModalProps) => {
         res = await deleteRecomendedBook(id).unwrap();
       } else if (type === "blockUser") {
         res = await blockUser(id).unwrap();
+      } else if (type === "book") {
+        res = await deleteBook(id).unwrap();
       }
 
       if (res.data) {
