@@ -56,7 +56,8 @@ const AddBookForm = () => {
       });
       return;
     }
-    const price = parseInt(data.price, 10);
+
+    const price = parseFloat(data.price);
 
     if (isNaN(price) || price <= 0) {
       toast.error("Invalid total pages. Please enter a valid number.", {
