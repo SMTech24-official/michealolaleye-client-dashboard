@@ -15,11 +15,15 @@ import MyFormInput from "@/components/form/MyFormInput";
 import { Search } from "lucide-react";
 import { FieldValues } from "react-hook-form";
 import { useState } from "react";
-import { useGetAllUserQuery } from "@/redux/features/user/user.api";
+import {
+  useDeteleUserMutation,
+  useGetAllUserQuery,
+} from "@/redux/features/user/user.api";
 import Image from "next/image";
 import { FaRegUserCircle } from "react-icons/fa";
 import ChangePasswordModal from "@/components/modules/Auth/ChangePasswordModal";
 import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
 
 const UserPage = () => {
   const [searchValue, setSearchValue] = useState<string | undefined>("");
@@ -27,6 +31,7 @@ const UserPage = () => {
   const { data, isFetching } = useGetAllUserQuery([
     { name: "searchTerm", value: searchValue },
   ]);
+  const [deleteUser] = useDeteleUserMutation();
 
   const handleSubmit = (data: FieldValues) => {
     setSearchValue(data.search);
@@ -37,6 +42,26 @@ const UserPage = () => {
       setUserId((prev) => [...prev, id]);
     } else {
       setUserId((prev) => prev.filter((truckId) => truckId !== id));
+    }
+  };
+
+  const handleDelete = async () => {
+    const toastId = toast.loading(`Processing...`);
+
+    try {
+      const res = await deleteUser({userIds}).unwrap();
+
+      if (res.data) {
+        toast.success(` Deleted Successfully`, { id: toastId });
+      } else {
+        toast.error(res?.error?.data?.message || `Failed to Delete`, {
+          id: toastId,
+        });
+      }
+    } catch (err: any) {
+      toast.error(err?.data?.message || `Failed to Delete`, {
+        id: toastId,
+      });
     }
   };
 
@@ -71,6 +96,16 @@ const UserPage = () => {
           </div>
         </div>
       </div>
+      {userIds.length > 0 && (
+        <div className="flex justify-end mb-6">
+          <button
+            onClick={handleDelete}
+            className="bg-primary text-white px-3 py-2 rounded-lg"
+          >
+            Delete All
+          </button>
+        </div>
+      )}
       <Table>
         <TableHeader>
           <TableRow>

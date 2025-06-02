@@ -11,11 +11,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
+import PhoneInput from "react-phone-input-2";
+import { useState } from "react";
 
 const EditProfile = () => {
   const [updateProfile] = useUpdateProfileMutation();
   const { data, isFetching } = useGetMeQuery(undefined);
-  const router = useRouter()
+  const router = useRouter();
+  const [number, setNumber] = useState<string>("");
 
   const handleSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Updating Profile...");
@@ -25,13 +28,16 @@ const EditProfile = () => {
     if (data.profileImage) {
       formData.append("image", data.profileImage);
     }
-    formData.append("data", JSON.stringify(data));
+    formData.append(
+      "data",
+      JSON.stringify({ ...data, phoneNumber: `+${number}` })
+    );
 
     try {
       const res = await updateProfile(formData).unwrap();
       if (res) {
         toast.success("Profile Updated successfully", { id: toastId });
-        router.push('/profile')
+        router.push("/profile");
       }
     } catch (err: any) {
       toast.error(err.data?.message || "Faild to Updating Profile", {
@@ -45,16 +51,35 @@ const EditProfile = () => {
   }
 
   const user = data?.data;
-  console.log(user);
+
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-12">Edit</h2>
       <div className="max-w-4xl mx-auto">
-        <MyFormWrapper onSubmit={handleSubmit} defaultValues={user}>
+        <MyFormWrapper
+          onSubmit={handleSubmit}
+          defaultValues={{
+            profileImage: user.profileImage,
+            fullName: user.fullName,
+            location: user.location,
+          }}
+        >
           <MyFormInput name="profileImage" type="file" />
           <MyFormInput name="fullName" label="Your Name" />
           <MyFormInput name="location" label="Your Location" />
-          <MyFormInput name="phoneNumber" label="Your Phone Number" />
+          {/* <MyFormInput name="phoneNumber" label="Your Phone Number" /> */}
+          <p className="text-lg font-medium">Phone Number</p>
+          <PhoneInput
+            country={"ng"}
+            value={number}
+            onChange={(phone) => setNumber(phone)}
+            inputStyle={{
+              width: "100%",
+              height: "57px",
+              fontSize: "16px",
+              borderBlockColor: "#7E1F7F40",
+            }}
+          />
 
           <div className="max-w-2xl mx-auto my-7 space-y-4">
             <button className="bg-primary border border-primary w-full rounded-lg py-2 text-white mb-5">

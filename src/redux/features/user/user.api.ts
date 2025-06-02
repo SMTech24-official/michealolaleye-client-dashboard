@@ -44,6 +44,15 @@ export const userApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+
+    deteleUser: builder.mutation({
+      query: (data) => ({
+        url: `/users/delete-many`,
+        method: "DELETE",
+        body: data,
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -51,5 +60,6 @@ export const {
   useGetAllUserQuery,
   useGetSingleUserQuery,
   useBlackUserMutation,
-  useSendNotificationMutation
+  useSendNotificationMutation,
+  useDeteleUserMutation,
 } = userApi;
