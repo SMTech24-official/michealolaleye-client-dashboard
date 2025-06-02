@@ -12,13 +12,20 @@ import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import PhoneInput from "react-phone-input-2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const EditProfile = () => {
   const [updateProfile] = useUpdateProfileMutation();
   const { data, isFetching } = useGetMeQuery(undefined);
   const router = useRouter();
   const [number, setNumber] = useState<string>("");
+
+  useEffect(() => {
+    if (data?.data?.phoneNumber) {
+      const cleaned = data.data.phoneNumber.replace("+", "");
+      setNumber(cleaned);
+    }
+  }, [data]);
 
   const handleSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Updating Profile...");
@@ -32,7 +39,7 @@ const EditProfile = () => {
       "data",
       JSON.stringify({ ...data, phoneNumber: `+${number}` })
     );
-
+    console.log({ ...data, phoneNumber: `+${number}` });
     try {
       const res = await updateProfile(formData).unwrap();
       if (res) {
