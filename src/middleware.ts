@@ -22,5 +22,5 @@ export async function middleware(request: NextRequest) {
 
 // "Matching Paths"
 export const config = {
-  matcher: ["/((?!login|forget-password|_next|api).*)"],
+  matcher: ["/forget-password"],
 };

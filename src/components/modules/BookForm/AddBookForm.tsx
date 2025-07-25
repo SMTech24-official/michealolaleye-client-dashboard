@@ -135,6 +135,7 @@ const AddBookForm = () => {
             options={categoryOpitons}
             label="Select Category"
           />
+          <MyFormInput name="productId" label="Product Id" />
           <MyFormInput name="description" type="textarea" label="Description" />
           <MyFormInput
             name="coverImage"

@@ -5,6 +5,7 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -13,7 +14,6 @@ import { logout } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { removeCookie } from "@/utils/cookies";
 import {
-  Image,
   House,
   Book,
   BookHeadphones,
@@ -21,9 +21,12 @@ import {
   UserRound,
   Medal,
   Users,
+  Images,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import logo from "@/assets/images/logo.png";
+import Image from "next/image";
 
 const items = [
   {
@@ -44,7 +47,7 @@ const items = [
   {
     title: "Banner",
     url: "/banner",
-    icon: Image,
+    icon: Images,
   },
   {
     title: "Category",
@@ -80,10 +83,12 @@ const AppSidebar = () => {
   };
 
   return (
-    <Sidebar className="top-36 left-7 !border-none">
+    <Sidebar className="!border-none">
       <SidebarContent className="!bg-secondary rounded-xl">
         <SidebarGroup />
-
+        <SidebarGroupLabel className="mb-14 mt-8 mx-auto">
+          <Image src={logo} alt="logo" width={100} height={50} />
+        </SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu className="px-4 space-y-1">
             {items?.map((item) => (
@@ -106,7 +111,7 @@ const AppSidebar = () => {
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
-          <SidebarFooter className="px-5 mt-20">
+          <SidebarFooter>
             <button
               onClick={handleLolgout}
               className="py-3 border border-red-400 rounded-lg font-medium text-base"

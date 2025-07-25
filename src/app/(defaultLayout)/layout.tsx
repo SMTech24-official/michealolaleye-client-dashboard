@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 const CommonLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="p-7">
-      <Navbar />
       <SidebarProvider>
         <AppSidebar />
-        <div className="max-w-[1300px] px-5 mx-auto w-full">{children}</div>
+      
+        <div className="max-w-[1450px] px-5 mx-auto w-full"><Navbar />{children}</div>
       </SidebarProvider>
     </main>
   );
