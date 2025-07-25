@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import logo from "@/assets/images/logo.png";
+import logo from "@/assets/images/big-logo.png";
 import Image from "next/image";
 
 const items = [
