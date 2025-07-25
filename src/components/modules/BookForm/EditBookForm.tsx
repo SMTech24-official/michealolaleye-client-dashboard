@@ -149,6 +149,7 @@ const EditBookForm = () => {
             options={categoryOpitons}
             label="Select Category"
           />
+          <MyFormInput name="productId" label="Product Id" />
           <MyFormInput name="description" type="textarea" label="Description" />
           <div className=" flex gap-4 items-center">
             <div className="w-4/5">
@@ -186,8 +187,8 @@ const EditBookForm = () => {
               >
                 View PDF
               </a>
-              // <iframe src={defaultData?.file} width="120px" height="160px" />
             ) : (
+              // <iframe src={defaultData?.file} width="120px" height="160px" />
               <audio controls src={defaultData?.file}>
                 Your browser does not support the audio element.
               </audio>
