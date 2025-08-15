@@ -19,8 +19,10 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import DeleteModal from "@/components/common/DeleteModal";
+import Pagination from "@/components/common/Pagination";
 
 const BookTable = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState<string | undefined>("");
   const pathName = usePathname();
 
@@ -33,7 +35,9 @@ const BookTable = () => {
 
   const { data, isFetching } = useGetAllBookQuery([
     { name: "type", value: bookType },
-    { name: "searchTerm", value: searchValue },
+    { name: "limit", value: 20 },
+    { name: "page", value: String(currentPage) },
+    ...(searchValue ? [{ name: "searchTerm", value: searchValue }] : []),
   ]);
 
   const handleSubmit = (data: FieldValues) => {
@@ -45,6 +49,8 @@ const BookTable = () => {
   }
 
   const item: any = data?.data?.data;
+
+  const metaData = data?.data?.meta;
 
   return (
     <div className="bg-[#FFF8FF80] p-4 rounded-lg">
@@ -126,12 +132,22 @@ const BookTable = () => {
                     <FaRegEdit className="text-xl font-light" />
                   </Link>
                 </TableCell>
-                <TableCell> <DeleteModal btn="btn" id={item.id} type="book"/></TableCell>
+                <TableCell>
+                  {" "}
+                  <DeleteModal btn="btn" id={item.id} type="book" />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       )}
+
+      <Pagination
+        currentPage={metaData?.page}
+        totalItem={metaData?.total}
+        limit={15}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
     </div>
   );
 };

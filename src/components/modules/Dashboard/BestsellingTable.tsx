@@ -19,6 +19,7 @@ import { FieldValues } from "react-hook-form";
 const BestsellingTable = () => {
   const [searchValue, setSearchValue] = useState<string | undefined>("");
   const { data, isFetching } = useGetBestSellingBooksQuery([
+    { name: "limit", value: 10 },
     { name: "searchTerm", value: searchValue },
   ]);
 

@@ -24,12 +24,16 @@ import { FaRegUserCircle } from "react-icons/fa";
 import ChangePasswordModal from "@/components/modules/Auth/ChangePasswordModal";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
+import Pagination from "@/components/common/Pagination";
 
 const UserPage = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState<string | undefined>("");
   const [userIds, setUserId] = useState<string[]>([]);
   const { data, isFetching } = useGetAllUserQuery([
-    { name: "searchTerm", value: searchValue },
+    { name: "limit", value: 20 },
+    { name: "page", value: String(currentPage) },
+    ...(searchValue ? [{ name: "searchTerm", value: searchValue }] : []),
   ]);
   const [deleteUser] = useDeteleUserMutation();
 
@@ -49,7 +53,7 @@ const UserPage = () => {
     const toastId = toast.loading(`Processing...`);
 
     try {
-      const res = await deleteUser({userIds}).unwrap();
+      const res = await deleteUser({ userIds }).unwrap();
 
       if (res.data) {
         toast.success(` Deleted Successfully`, { id: toastId });
@@ -70,6 +74,8 @@ const UserPage = () => {
   }
 
   const item: any = data?.data?.data;
+
+  const metaData = data?.data?.meta;
 
   return (
     <div className="bg-[#FFF8FF80] p-4 rounded-lg">
@@ -116,6 +122,9 @@ const UserPage = () => {
               Name
             </TableHead>
             <TableHead className="text-xl font-medium text-black">
+              Email
+            </TableHead>
+            <TableHead className="text-xl font-medium text-black">
               Phone
             </TableHead>
             <TableHead className="text-xl font-medium text-black">
@@ -149,7 +158,8 @@ const UserPage = () => {
                 )}
               </TableCell>
               <TableCell>{item?.fullName}</TableCell>
-              <TableCell>{item?.phoneNumber}</TableCell>
+              <TableCell>{item?.email || "NA"}</TableCell>
+              <TableCell>{item?.phoneNumber  || "NA"}</TableCell>
               <TableCell
                 className={`${
                   item?.isDeleted ? "text-red-500" : "text-green-500"
@@ -186,6 +196,13 @@ const UserPage = () => {
           ))}
         </TableBody>
       </Table>
+
+      <Pagination
+        currentPage={metaData?.page}
+        totalItem={metaData?.total}
+        limit={15}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
     </div>
   );
 };
