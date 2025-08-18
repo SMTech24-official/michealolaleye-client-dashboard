@@ -200,7 +200,7 @@ const UserPage = () => {
       <Pagination
         currentPage={metaData?.page}
         totalItem={metaData?.total}
-        limit={15}
+        limit={20}
         onPageChange={(page) => setCurrentPage(page)}
       />
     </div>
