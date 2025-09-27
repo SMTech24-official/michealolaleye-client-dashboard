@@ -53,6 +53,23 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+
+    orderList: builder.query({
+      query: (args) => {
+        const params = new URLSearchParams();
+
+        if (args) {
+          args.forEach((item: TQueryParams) =>
+            params.append(item.name, item.value as string)
+          );
+        }
+        return {
+          url: "/purchase",
+          method: "GET",
+          params: params,
+        };
+      },
+    }),
   }),
 });
 
@@ -62,4 +79,5 @@ export const {
   useBlackUserMutation,
   useSendNotificationMutation,
   useDeteleUserMutation,
+  useOrderListQuery,
 } = userApi;

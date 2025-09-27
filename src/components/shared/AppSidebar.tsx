@@ -65,6 +65,11 @@ const items = [
     icon: Users,
   },
   {
+    title: "Order List",
+    url: "/order-list",
+    icon: Users,
+  },
+  {
     title: "Profile",
     url: "/profile",
     icon: UserRound,
